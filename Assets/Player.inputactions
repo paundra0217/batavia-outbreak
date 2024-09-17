@@ -9,7 +9,7 @@
                     "name": "Movement",
                     "type": "Value",
                     "id": "6287190b-b330-4cea-809f-e4d567684626",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -37,9 +37,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
+                    "name": "2D Vector",
                     "id": "062ef084-7619-4d54-8de9-5fc92b2d3cf0",
-                    "path": "1DAxis",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -48,8 +48,30 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
+                    "name": "Up",
                     "id": "e504f858-3a79-42ad-9e1c-7b8f3e90ec06",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "6613372d-e86f-405f-b433-ddbacb41d5e5",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "21208292-93eb-42fd-9ef7-35c643e650e5",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -59,8 +81,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "6613372d-e86f-405f-b433-ddbacb41d5e5",
+                    "name": "Right",
+                    "id": "a5e0b297-6b16-4b2d-bd33-43669d17f08d",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",

@@ -7,11 +7,16 @@ using UnityEngine.InputSystem;
 public class PlayerMotor : MonoBehaviour
 {
     [SerializeField] private float speed = 5.0f;
+    [SerializeField] private float gravity = 10f;
+    [SerializeField] private float jump = 1f;
 
     private Rigidbody rb;
     private CharacterController controller;
     private PlayerInput playerInput;
-    private float direction;
+    private float xDirection;
+    private float zDirection;
+    private float yMotion = 0f;
+    private bool isJumping = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +29,17 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
-        float moveX = direction * speed * Time.deltaTime; 
-        controller.Move(new Vector3(moveX, controller.velocity.y, controller.velocity.z));
+        Vector3 motion3D = new Vector3(xDirection, 0, zDirection).normalized * speed;
+
+        yMotion -= gravity * Time.deltaTime;
+        if (controller.isGrounded)
+        {
+            yMotion = 0f;
+            isJumping = false;
+        }
+        motion3D.y = yMotion;
+
+        controller.Move(motion3D * Time.deltaTime);
     }
 
     private void PlayerInput_onActionTriggered(InputAction.CallbackContext context)
@@ -35,11 +49,15 @@ public class PlayerMotor : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        direction = context.ReadValue<float>();
+        xDirection = context.ReadValue<Vector2>().x;
+        zDirection = context.ReadValue<Vector2>().y;
     }
 
     public void Jump()
     {
-        Debug.Log("Jump");
+        if (isJumping) return;
+
+        yMotion = jump;
+        isJumping = true;
     }
 }
