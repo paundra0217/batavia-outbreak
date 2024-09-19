@@ -26,6 +26,12 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
+        Movement();
+        Rotation();
+    }
+
+    private void Movement()
+    {
         Vector3 motion3D = new Vector3(xDirection, 0, zDirection).normalized * speed;
 
         yMotion -= gravity * Time.deltaTime;
@@ -37,6 +43,14 @@ public class PlayerMotor : MonoBehaviour
         motion3D.y = yMotion;
 
         controller.Move(motion3D * Time.deltaTime);
+    }
+
+    private void Rotation()
+    {
+        Vector3 mouseTarget = GameObject.FindGameObjectWithTag("MouseTarget").transform.position;
+
+        transform.LookAt(mouseTarget);
+        transform.rotation = new Quaternion(0f, transform.rotation.y, 0f, transform.rotation.w);
     }
 
     private void PlayerInput_onActionTriggered(InputAction.CallbackContext context)

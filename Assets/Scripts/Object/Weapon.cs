@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum FiringMode
 {
@@ -53,7 +54,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject projectileSpawner;
 
     [Header("Weapon Behaviour")]
-    [SerializeField, HideInInspector] 
+    [SerializeField, HideInInspector]
     private FiringMode firingMode;
     [Min(2), SerializeField, HideInInspector]
     private int bulletsPerBurst;
@@ -71,24 +72,21 @@ public class Weapon : MonoBehaviour
     private int currentTotalBullets;
     private bool isFiring;
     private bool isPressed;
+    private bool isReloading;
 
     private void Start()
     {
-        magazine = totalBullets;
+        magazine = bulletPerMagazine;
         currentTotalBullets = totalBullets;
     }
 
-    public void Shoot()
+    public void Shoot(InputAction.CallbackContext context)
     {
-        if (magazine <= 0 || isFiring) return;
+        if (firingMode != FiringMode.Auto && !context.performed) return;
 
-        if (isPressed && firingMode != FiringMode.Auto)
-        {
-            isPressed = false;
-            return;
-        }
+        if (isFiring || isReloading) return;
 
-        switch(firingMode)
+        switch (firingMode)
         {
             case FiringMode.Single:
                 SpawnProjectile();
@@ -99,21 +97,12 @@ public class Weapon : MonoBehaviour
                 break;
 
             case FiringMode.Auto:
-                if (isPressed)
-                {
+                if (context.performed)
                     StartCoroutine("AutoFire");
-                    isPressed = true;
-                }
-                else
-                {
+                else if (context.canceled)
                     StopCoroutine("AutoFire");
-                    isPressed = false;
-                }
-
                 break;
         }
-
-        isPressed = true;
     }
 
     IEnumerator BurstFire()
@@ -123,6 +112,7 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < bulletsPerBurst; i++)
         {
             SpawnProjectile();
+            
             yield return new WaitForSeconds(timePerBullet);
         }
 
@@ -134,23 +124,73 @@ public class Weapon : MonoBehaviour
         while (true)
         {
             SpawnProjectile();
+
             yield return new WaitForSeconds(timePerBullet);
         }
     }
 
     private void SpawnProjectile()
     {
+        magazine--;
+        print(magazine);
+
+        if (magazine <= 0)
+        {
+            StopAllCoroutines();
+            Reload();
+            return;
+        }
+
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
         spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
         spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
-        spawnedProjectile.GetComponent<Rigidbody>().velocity = Vector3.forward * bulletAirSpeed;
+        spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
+    }
+
+    IEnumerator ReloadAnimation()
+    {
+        isReloading = true;
+
+        yield return new WaitForSeconds(3);
+
+        int usedBullets = bulletPerMagazine - magazine;
+
+        if (currentTotalBullets >= bulletPerMagazine)
+        {
+            magazine = bulletPerMagazine;
+            totalBullets -= usedBullets;
+        }
+        else
+        {
+            magazine += currentTotalBullets;
+            currentTotalBullets = 0;
+        }
+
+        print("Reload complete");
+
+        isReloading = false;
     }
 
     public void Reload()
     {
-        int usedBullets = bulletPerMagazine - magazine;
+        if (magazine >= bulletPerMagazine || currentTotalBullets <= 0) return;
 
-        magazine = bulletPerMagazine;
-        totalBullets -= usedBullets;
+        print("Reloading");
+        StartCoroutine("ReloadAnimation");
+    }
+
+    public int GetMagazineAmmo()
+    {
+        return magazine;
+    }
+
+    public int GetTotalAmmo()
+    {
+        return totalBullets;
+    }
+
+    public bool IsReloading()
+    {
+        return isReloading;
     }
 }

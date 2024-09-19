@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1655837402634741725}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4882
+  m_VersionIndex: 4885
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 6716445224423717036}
   m_Layer: 0
   m_Name: ProjectileSpawn
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -380,7 +380,7 @@ Transform:
   m_GameObject: {fileID: 3983864198730268577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000000011175871, y: 0.2, z: 0.52}
+  m_LocalPosition: {x: -0.000000011175871, y: 0.2, z: 0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -395,9 +395,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1572342206108061433}
+  - component: {fileID: -2152828949982714314}
   m_Layer: 0
   m_Name: SampleWeapon
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -420,6 +421,29 @@ Transform:
   - {fileID: 6716445224423717036}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2152828949982714314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7444128087532627900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7c193a3e959d844a6a3219141c7c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 744041028301759777, guid: 57b218637e21b0a4a9f3463ff107f520,
+    type: 3}
+  projectileSpawner: {fileID: 3983864198730268577}
+  firingMode: 2
+  bulletsPerBurst: 0
+  timePerBullet: 0.1
+  bulletPerMagazine: 30
+  totalBullets: 120
+  bulletAirSpeed: 80
+  damage: 100
+  timeBulletLast: 2
 --- !u!1 &8497148806736193751
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +460,7 @@ GameObject:
   - component: {fileID: 1019005556171084268}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -668,7 +692,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4698
+  m_VersionIndex: 4701
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
