@@ -37,11 +37,18 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Weapon") || collision.gameObject.CompareTag("Player")) return;
 
-        // deal damage here
-        collidePos = transform.position;
 
+        collidePos = transform.position;
         distance = Mathf.Ceil(Vector3.Distance(initialPos, collidePos));
         //Debug.LogFormat("Distance: {0}m", distance);
+
+        // deal damage here
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            EntityHealth entityHealth = collision.gameObject.GetComponent<EntityHealth>();
+
+            entityHealth.TakeDamage(damage);
+        }
 
         Destroy(gameObject);
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MouseTarget
   - Weapon
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4885
+  m_VersionIndex: 4912
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -436,14 +436,17 @@ MonoBehaviour:
   projectile: {fileID: 744041028301759777, guid: 57b218637e21b0a4a9f3463ff107f520,
     type: 3}
   projectileSpawner: {fileID: 3983864198730268577}
-  firingMode: 2
+  shootingSound: {fileID: 0}
+  reloadSound: {fileID: 0}
+  firingMode: 0
   bulletsPerBurst: 0
   timePerBullet: 0.1
-  bulletPerMagazine: 30
-  totalBullets: 120
-  bulletAirSpeed: 80
-  damage: 100
-  timeBulletLast: 2
+  reloadTime: 3
+  bulletPerMagazine: 12
+  totalBullets: 48
+  bulletAirSpeed: 300
+  damage: 20
+  timeBulletLast: 1
 --- !u!1 &8497148806736193751
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +695,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4701
+  m_VersionIndex: 4728
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

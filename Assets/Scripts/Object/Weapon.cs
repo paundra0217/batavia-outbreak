@@ -49,9 +49,11 @@ public class WeaponEditor : Editor
 
 public class Weapon : MonoBehaviour
 {
-    [Header("GameObject Variables")]
+    [Header("Weapon Configuration")]
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectileSpawner;
+    [SerializeField] private AudioClip shootingSound;
+    [SerializeField] private AudioClip reloadSound;
 
     [Header("Weapon Behaviour")]
     [SerializeField, HideInInspector]
@@ -60,6 +62,7 @@ public class Weapon : MonoBehaviour
     private int bulletsPerBurst;
     [Min(0.001f), SerializeField, HideInInspector]
     private float timePerBullet;
+    [SerializeField] private float reloadTime = 3f;
 
     [Header("Magazine and Bullet Configuration")]
     [SerializeField] private int bulletPerMagazine;
@@ -84,7 +87,7 @@ public class Weapon : MonoBehaviour
     {
         if (firingMode != FiringMode.Auto && !context.performed) return;
 
-        if (isFiring || isReloading) return;
+        if (isFiring || isReloading || magazine <= 0) return;
 
         switch (firingMode)
         {
@@ -151,14 +154,14 @@ public class Weapon : MonoBehaviour
     {
         isReloading = true;
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(reloadTime);
 
         int usedBullets = bulletPerMagazine - magazine;
 
         if (currentTotalBullets >= bulletPerMagazine)
         {
             magazine = bulletPerMagazine;
-            totalBullets -= usedBullets;
+            currentTotalBullets -= usedBullets;
         }
         else
         {
@@ -173,7 +176,7 @@ public class Weapon : MonoBehaviour
 
     public void Reload()
     {
-        if (magazine >= bulletPerMagazine || currentTotalBullets <= 0) return;
+        if (magazine >= bulletPerMagazine || currentTotalBullets <= 0 || isReloading) return;
 
         print("Reloading");
         StartCoroutine("ReloadAnimation");
@@ -186,7 +189,7 @@ public class Weapon : MonoBehaviour
 
     public int GetTotalAmmo()
     {
-        return totalBullets;
+        return currentTotalBullets;
     }
 
     public bool IsReloading()
