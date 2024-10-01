@@ -13,12 +13,6 @@ public class EntityHealth : MonoBehaviour
         currentHealth = health;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public float GetHealthByDecimal()
     {
         return currentHealth / health;

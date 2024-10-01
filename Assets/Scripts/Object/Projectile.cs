@@ -4,7 +4,6 @@ public class Projectile : MonoBehaviour
 {
     private float damage;
     private float bulletLast;
-
     private Vector3 initialPos;
     private Vector3 collidePos;
     private float distance;
@@ -36,7 +35,6 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Weapon") || collision.gameObject.CompareTag("Player")) return;
-
 
         collidePos = transform.position;
         distance = Mathf.Ceil(Vector3.Distance(initialPos, collidePos));

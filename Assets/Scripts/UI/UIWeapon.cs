@@ -13,12 +13,17 @@ public class UIWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            ClearAmmoIndicator();
+            return;
+        }
+
         weapon = GameObject.Find("Player/WeaponHandle").transform.GetChild(0).GetComponent<Weapon>();
 
         if (weapon == null)
         {
-            labelMagazine.text = "-";
-            labelTotalBullets.text = "/ -";
+            ClearAmmoIndicator();
             return;
         }
 
@@ -26,5 +31,11 @@ public class UIWeapon : MonoBehaviour
 
         labelMagazine.text = weapon.GetMagazineAmmo().ToString();
         labelTotalBullets.text = string.Format("/ {0}", weapon.GetTotalAmmo().ToString());
+    }
+
+    private void ClearAmmoIndicator()
+    {
+        labelMagazine.text = "-";
+        labelTotalBullets.text = "/ -";
     }
 }

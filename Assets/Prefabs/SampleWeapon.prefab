@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 167719743377955456}
   - component: {fileID: 572429367323680833}
   - component: {fileID: 1655837402634741725}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6716445224423717036}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ProjectileSpawn
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1572342206108061433}
   - component: {fileID: -2152828949982714314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SampleWeapon
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ MonoBehaviour:
   bulletPerMagazine: 12
   totalBullets: 48
   bulletAirSpeed: 300
-  damage: 20
+  damage: 35
   timeBulletLast: 1
 --- !u!1 &8497148806736193751
 GameObject:
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 1923779460307262260}
   - component: {fileID: 5600794779584621653}
   - component: {fileID: 1019005556171084268}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Weapon
   m_Icon: {fileID: 0}
