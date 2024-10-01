@@ -8,6 +8,7 @@ public class UIWeapon : MonoBehaviour
     [SerializeField] private TMP_Text labelMagazine;
     [SerializeField] private TMP_Text labelTotalBullets;
     [SerializeField] private TMP_Text labelReloading;
+
     private Weapon weapon;
 
     // Update is called once per frame

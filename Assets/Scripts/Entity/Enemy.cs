@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,10 +7,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float damagePerStrike = 10f;
     [SerializeField] private float timePerStrike = 0.5f;
 
+    private Guid enemyID;
     private float strikeCooldown = 0f;
     private GameObject player = null;
     private CapsuleCollider capsuleColl;
     private NavMeshAgent agent;
+
+    private void Awake()
+    {
+        enemyID = Guid.NewGuid();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +30,8 @@ public class Enemy : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Player"))
             agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+        else
+            agent.SetDestination(transform.position);
 
         DetectPlayer();
     }
@@ -61,5 +70,10 @@ public class Enemy : MonoBehaviour
         entityHealth.TakeDamage(damagePerStrike);
 
         strikeCooldown = timePerStrike;
+    }
+
+    public Guid GetEnemyID()
+    {
+        return enemyID;
     }
 }

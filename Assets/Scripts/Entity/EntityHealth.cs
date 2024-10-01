@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityHealth : MonoBehaviour
@@ -33,7 +31,17 @@ public class EntityHealth : MonoBehaviour
         {
             currentHealth = 0f;
 
-            Destroy(gameObject);
+            if (gameObject.CompareTag("Enemy"))
+            {
+                // if entity is enemy
+                EnemyManager.RemoveEnemy(gameObject.GetComponent<Enemy>().GetEnemyID());
+            }
+            else
+            {
+                // if entity is player
+                EnemyManager.StopAutoEnemySpawn();
+                Destroy(gameObject);
+            }
         }
     }
 }

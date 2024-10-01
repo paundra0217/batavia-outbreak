@@ -438,12 +438,12 @@ MonoBehaviour:
   projectileSpawner: {fileID: 3983864198730268577}
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
-  firingMode: 0
+  firingMode: 2
   bulletsPerBurst: 0
   timePerBullet: 0.1
   reloadTime: 3
-  bulletPerMagazine: 12
-  totalBullets: 48
+  bulletPerMagazine: 30
+  totalBullets: 180
   bulletAirSpeed: 300
   damage: 35
   timeBulletLast: 1
