@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 1572342206108061433}
   - component: {fileID: -2152828949982714314}
   m_Layer: 7
-  m_Name: SampleWeapon
+  m_Name: Pistol
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,7 +412,7 @@ Transform:
   m_GameObject: {fileID: 7444128087532627900}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 0.369, z: 0.98}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -438,14 +438,15 @@ MonoBehaviour:
   projectileSpawner: {fileID: 3983864198730268577}
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
-  firingMode: 2
+  firingMode: 0
+  firingCooldown: 0
   bulletsPerBurst: 0
   timePerBullet: 0.1
-  reloadTime: 3
-  bulletPerMagazine: 30
-  totalBullets: 180
+  reloadTime: 1
+  bulletPerMagazine: 7
+  totalBullets: 42
   bulletAirSpeed: 300
-  damage: 35
+  damage: 25
   timeBulletLast: 1
 --- !u!1 &8497148806736193751
 GameObject:

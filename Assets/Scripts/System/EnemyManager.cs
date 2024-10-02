@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class EnemyObject
 {
     public Guid enemyID;
@@ -35,8 +34,8 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetPrespawnedEnemies();
-        StartAutoEnemySpawn();
+        //GetPrespawnedEnemies();
+        //StartAutoEnemySpawn();
     }
 
     // Update is called once per frame
@@ -84,6 +83,9 @@ public class EnemyManager : MonoBehaviour
     public static void RemoveEnemy(Guid enemyID)
     {
         EnemyObject selectedEnemy = enemies.FirstOrDefault(e => enemyID == e.enemyID);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        player.GetComponent<PlayerCurrency>().AddCurrency(selectedEnemy.enemy.GetComponent<Enemy>().GetEnemyWorth());
 
         Destroy(selectedEnemy.enemy);
 
@@ -124,6 +126,18 @@ public class EnemyManager : MonoBehaviour
 
     public static void StopAutoEnemySpawn()
     {
-        toggleContinuousSpawn= false;
+        toggleContinuousSpawn = false;
     }
+
+    #region debugging
+    public static void DebugSpawnEnemy()
+    {
+        SpawnEnemy();
+    }
+
+    public static void DebugToggleAutoEnemySpawn()
+    {
+        toggleContinuousSpawn = !toggleContinuousSpawn;
+    }
+    #endregion
 }

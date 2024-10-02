@@ -189,7 +189,7 @@ public class AudioController : MonoBehaviour
 
         if (audio == null)
         {
-            Debug.LogError("Audio is not available or you're searching in the wrong type.");
+            Debug.LogError("Audio is not available either you're searching in the wrong type or the audio name is invalid.");
             return null;
         }
 
@@ -205,7 +205,7 @@ public class AudioController : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("Audio cannot be played because either Scene does not exist on the variable.");
+            Debug.LogWarning("Audio cannot be played because either Scene does not exist on the variable or the Scene name is invalid.");
         }
     }
 

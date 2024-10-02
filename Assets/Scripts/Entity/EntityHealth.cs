@@ -16,6 +16,12 @@ public class EntityHealth : MonoBehaviour
         return currentHealth / health;
     }
 
+    public void SetHealth(float health)
+    {
+        this.health = health;
+        currentHealth = this.health;
+    }
+
     public void HealEntity(float hp)
     {
         currentHealth += hp;
