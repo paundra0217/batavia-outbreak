@@ -22,6 +22,13 @@ public class EntityHealth : MonoBehaviour
         currentHealth = this.health;
     }
 
+    public void ReAdjustHealth(float newMaxHealth)
+    {
+        float previousMaxHealth = health;
+        health = newMaxHealth;
+        currentHealth = (currentHealth / previousMaxHealth) * health;
+    }
+
     public void HealEntity(float hp)
     {
         currentHealth += hp;

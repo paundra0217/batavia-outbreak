@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2672284880398100040}
   - component: {fileID: 4571415324582057109}
   - component: {fileID: 7315033228400601576}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BarEmpty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 3352458983896254516}
   - component: {fileID: 5517782362009672752}
   - component: {fileID: 9153479127084917432}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,8 +338,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8364c34737eb048af502a3299ce97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerStrike: 10
+  baseDamage: 10
   timePerStrike: 0.5
+  baseHealth: 100
+  baseWorth: 10
+  enemyLevel: 1
 --- !u!114 &4335839717124659251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +367,7 @@ GameObject:
   - component: {fileID: 1469215740514040035}
   - component: {fileID: 7654411227346089562}
   - component: {fileID: 6038361870145945562}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BarFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

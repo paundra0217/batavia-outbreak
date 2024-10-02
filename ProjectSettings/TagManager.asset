@@ -7,6 +7,7 @@ TagManager:
   - MouseTarget
   - Weapon
   - Enemy
+  - UICamera
   layers:
   - Default
   - TransparentFX

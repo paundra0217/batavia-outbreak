@@ -8,6 +8,11 @@ public class UIHealthBar : MonoBehaviour
     private EntityHealth entityHealth;
     private Image healthBar;
 
+    private void Awake()
+    {
+        GetComponent<Canvas>().worldCamera = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
