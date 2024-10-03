@@ -402,7 +402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1572342206108061433
 Transform:
   m_ObjectHideFlags: 0
@@ -436,6 +436,7 @@ MonoBehaviour:
   projectile: {fileID: 744041028301759777, guid: 57b218637e21b0a4a9f3463ff107f520,
     type: 3}
   projectileSpawner: {fileID: 3983864198730268577}
+  weaponType: 0
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
   firingMode: 2

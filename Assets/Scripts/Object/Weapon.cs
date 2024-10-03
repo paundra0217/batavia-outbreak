@@ -10,6 +10,12 @@ public enum FiringMode
     Auto
 }
 
+public enum WeaponType
+{
+    Primary,
+    Secondary,
+}
+
 #if UNITY_EDITOR
 [CustomEditor(typeof(Weapon), true), CanEditMultipleObjects]
 public class WeaponEditor : Editor
@@ -57,6 +63,7 @@ public class Weapon : MonoBehaviour
     [Header("Weapon Configuration")]
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectileSpawner;
+    [SerializeField] private WeaponType weaponType;
     [SerializeField] private AudioClip shootingSound;
     [SerializeField] private AudioClip reloadSound;
 
@@ -226,5 +233,10 @@ public class Weapon : MonoBehaviour
     public void UpdateFireRate()
     {
         CalculateFireRate();
+    }
+
+    public WeaponType GetWeaponType()
+    {
+        return weaponType;
     }
 }

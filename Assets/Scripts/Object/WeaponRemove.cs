@@ -13,9 +13,11 @@ public class WeaponRemove : MonoBehaviour
             GameObject player = other.gameObject;
             GameObject weaponHandle = player.transform.Find("WeaponHandle").gameObject;
 
-            if (weaponHandle.transform.childCount <= 0) return;
+            weaponHandle.GetComponent<WeaponHandle>().DropWeapon();
 
-            Destroy(weaponHandle.transform.GetChild(0).gameObject);
+            //if (weaponHandle.transform.childCount <= 0) return;
+
+            //Destroy(weaponHandle.transform.GetChild(0).gameObject);
         }
     }
 }

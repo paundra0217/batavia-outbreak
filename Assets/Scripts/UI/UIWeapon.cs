@@ -9,7 +9,8 @@ public class UIWeapon : MonoBehaviour
     [SerializeField] private TMP_Text labelTotalBullets;
     [SerializeField] private TMP_Text labelReloading;
 
-    private Weapon weapon;
+    //private Weapon weapon;
+    private WeaponHandle weaponHandle;
 
     private void Awake()
     {
@@ -25,24 +26,32 @@ public class UIWeapon : MonoBehaviour
             return;
         }
 
-        if (GameObject.Find("Player/WeaponHandle").transform.childCount <= 0)
+        weaponHandle = GameObject.Find("Player/WeaponHandle").GetComponent<WeaponHandle>();
+
+        if (weaponHandle.GetWeaponIndex() == -1)
         {
             ClearAmmoIndicator();
             return;
         }
 
-        weapon = GameObject.Find("Player/WeaponHandle").transform.GetChild(0).GetComponent<Weapon>();
+        //if (GameObject.Find("Player/WeaponHandle").transform.childCount <= 0)
+        //{
+        //    ClearAmmoIndicator();
+        //    return;
+        //}
 
-        if (weapon == null)
-        {
-            ClearAmmoIndicator();
-            return;
-        }
+        //weapon = GameObject.Find("Player/WeaponHandle").transform.GetChild(0).GetComponent<Weapon>();
 
-        labelReloading.enabled = weapon.IsReloading();
+        //if (weapon == null)
+        //{
+        //    ClearAmmoIndicator();
+        //    return;
+        //}
 
-        labelMagazine.text = weapon.GetMagazineAmmo().ToString();
-        labelTotalBullets.text = string.Format("/ {0}", weapon.GetTotalAmmo().ToString());
+        labelReloading.enabled = weaponHandle.GetWeaponReloadStatus();
+
+        labelMagazine.text = weaponHandle.GetWeaponMagazine().ToString();
+        labelTotalBullets.text = string.Format("/ {0}", weaponHandle.GetWeaponTotalAmmo().ToString());
     }
 
     private void ClearAmmoIndicator()

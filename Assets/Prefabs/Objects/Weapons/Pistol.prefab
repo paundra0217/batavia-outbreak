@@ -436,12 +436,13 @@ MonoBehaviour:
   projectile: {fileID: 744041028301759777, guid: 57b218637e21b0a4a9f3463ff107f520,
     type: 3}
   projectileSpawner: {fileID: 3983864198730268577}
+  weaponType: 1
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
   firingMode: 0
   firingCooldown: 0
   bulletsPerBurst: 0
-  timePerBullet: 0.1
+  roundsPerMinute: 0
   reloadTime: 1
   bulletPerMagazine: 7
   totalBullets: 42
