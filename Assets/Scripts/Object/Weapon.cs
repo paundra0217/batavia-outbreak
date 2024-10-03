@@ -15,14 +15,16 @@ public enum FiringMode
 public class WeaponEditor : Editor
 {
     SerializedProperty firingMode;
+    SerializedProperty firingCooldown;
     SerializedProperty bulletsPerBurst;
-    SerializedProperty timePerBullet;
+    SerializedProperty roundsPerMinute;
 
     private void OnEnable()
     {
         firingMode = serializedObject.FindProperty("firingMode");
+        firingCooldown = serializedObject.FindProperty("firingCooldown");
         bulletsPerBurst = serializedObject.FindProperty("bulletsPerBurst");
-        timePerBullet = serializedObject.FindProperty("timePerBullet");
+        roundsPerMinute = serializedObject.FindProperty("roundsPerMinute");
     }
 
     public override void OnInspectorGUI()
@@ -31,14 +33,17 @@ public class WeaponEditor : Editor
 
         EditorGUILayout.PropertyField(firingMode);
 
+        if (firingMode.enumValueIndex == 0)
+            EditorGUILayout.PropertyField(firingCooldown);
+
         if (firingMode.enumValueIndex == 1)
         {
             EditorGUILayout.PropertyField(bulletsPerBurst);
-            EditorGUILayout.PropertyField(timePerBullet);
+            EditorGUILayout.PropertyField(roundsPerMinute);
         }
 
         if (firingMode.enumValueIndex == 2)
-            EditorGUILayout.PropertyField(timePerBullet);
+            EditorGUILayout.PropertyField(roundsPerMinute);
 
         serializedObject.ApplyModifiedProperties();
 
@@ -58,10 +63,12 @@ public class Weapon : MonoBehaviour
     [Header("Weapon Behaviour")]
     [SerializeField, HideInInspector]
     private FiringMode firingMode;
+    [Min(0f), SerializeField, HideInInspector]
+    private float firingCooldown;
     [Min(2), SerializeField, HideInInspector]
     private int bulletsPerBurst;
-    [Min(0.001f), SerializeField, HideInInspector]
-    private float timePerBullet;
+    [SerializeField, HideInInspector]
+    private int roundsPerMinute;
     [SerializeField] private float reloadTime = 3f;
 
     [Header("Magazine and Bullet Configuration")]
@@ -73,14 +80,30 @@ public class Weapon : MonoBehaviour
 
     private int magazine;
     private int currentTotalBullets;
+    private float timePerBullet;
     private bool isFiring;
     private bool isPressed;
     private bool isReloading;
+    private float fireCooldownTime;
 
     private void Start()
     {
         magazine = bulletPerMagazine;
         currentTotalBullets = totalBullets;
+
+        CalculateFireRate();
+    }
+
+    private void Update()
+    {
+        if (fireCooldownTime >= 0)
+            fireCooldownTime -= Time.deltaTime;
+    }
+
+    private void CalculateFireRate()
+    {
+        if (firingMode == FiringMode.Auto || firingMode == FiringMode.Burst)
+            timePerBullet = 60f / roundsPerMinute;
     }
 
     public void Shoot(InputAction.CallbackContext context)
@@ -92,7 +115,11 @@ public class Weapon : MonoBehaviour
         switch (firingMode)
         {
             case FiringMode.Single:
-                SpawnProjectile();
+                if (fireCooldownTime <= 0)
+                {
+                    SpawnProjectile();
+                    fireCooldownTime = firingCooldown;
+                }
                 break;
 
             case FiringMode.Burst:
@@ -134,8 +161,12 @@ public class Weapon : MonoBehaviour
 
     private void SpawnProjectile()
     {
+        GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
+        spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
+        spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
+        spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
+
         magazine--;
-        print(magazine);
 
         if (magazine <= 0)
         {
@@ -143,11 +174,6 @@ public class Weapon : MonoBehaviour
             Reload();
             return;
         }
-
-        GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
-        spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
-        spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
-        spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
     }
 
     IEnumerator ReloadAnimation()
@@ -195,5 +221,10 @@ public class Weapon : MonoBehaviour
     public bool IsReloading()
     {
         return isReloading;
+    }
+
+    public void UpdateFireRate()
+    {
+        CalculateFireRate();
     }
 }

@@ -8,12 +8,24 @@ public class UIWeapon : MonoBehaviour
     [SerializeField] private TMP_Text labelMagazine;
     [SerializeField] private TMP_Text labelTotalBullets;
     [SerializeField] private TMP_Text labelReloading;
+
     private Weapon weapon;
+
+    private void Awake()
+    {
+        labelReloading.enabled = false;
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            ClearAmmoIndicator();
+            return;
+        }
+
+        if (GameObject.Find("Player/WeaponHandle").transform.childCount <= 0)
         {
             ClearAmmoIndicator();
             return;
@@ -37,5 +49,6 @@ public class UIWeapon : MonoBehaviour
     {
         labelMagazine.text = "-";
         labelTotalBullets.text = "/ -";
+        labelReloading.enabled = false;
     }
 }

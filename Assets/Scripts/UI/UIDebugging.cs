@@ -21,4 +21,19 @@ public class UIDebugging : MonoBehaviour
     {
         entityHealth.HealEntity(10f);
     }
+
+    public void DebugSpawnEnemy()
+    {
+        EnemyManager.DebugSpawnEnemy();
+    }
+
+    public void DebugToggleAutoEnemySpawn()
+    {
+        EnemyManager.DebugToggleAutoEnemySpawn();
+    }
+
+    public void DebugSpawnPlayer()
+    {
+
+    }
 }

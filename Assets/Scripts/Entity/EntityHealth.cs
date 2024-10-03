@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityHealth : MonoBehaviour
@@ -18,6 +16,19 @@ public class EntityHealth : MonoBehaviour
         return currentHealth / health;
     }
 
+    public void SetHealth(float health)
+    {
+        this.health = health;
+        currentHealth = this.health;
+    }
+
+    public void ReAdjustHealth(float newMaxHealth)
+    {
+        float previousMaxHealth = health;
+        health = newMaxHealth;
+        currentHealth = (currentHealth / previousMaxHealth) * health;
+    }
+
     public void HealEntity(float hp)
     {
         currentHealth += hp;
@@ -33,7 +44,17 @@ public class EntityHealth : MonoBehaviour
         {
             currentHealth = 0f;
 
-            Destroy(gameObject);
+            if (gameObject.CompareTag("Enemy"))
+            {
+                // if entity is enemy
+                EnemyManager.RemoveEnemy(gameObject.GetComponent<Enemy>().GetEnemyID());
+            }
+            else
+            {
+                // if entity is player
+                EnemyManager.StopAutoEnemySpawn();
+                Destroy(gameObject);
+            }
         }
     }
 }
