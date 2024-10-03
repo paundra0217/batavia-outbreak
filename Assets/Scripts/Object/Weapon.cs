@@ -93,6 +93,10 @@ public class Weapon : MonoBehaviour
     private bool isReloading;
     private float fireCooldownTime;
 
+    private void Awake()
+    {
+        projectileSpawner.GetComponent<Light>().enabled = false;
+    }
     private void Start()
     {
         magazine = bulletPerMagazine;
@@ -168,12 +172,16 @@ public class Weapon : MonoBehaviour
 
     private void SpawnProjectile()
     {
+        projectileSpawner.GetComponent<Light>().enabled = true;
+
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
         spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
         spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
         spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
 
         magazine--;
+
+        projectileSpawner.GetComponent<Light>().enabled = false;
 
         if (magazine <= 0)
         {

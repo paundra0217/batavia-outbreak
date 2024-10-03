@@ -6,24 +6,42 @@ using UnityEngine.InputSystem;
 
 public class WeaponHandle : MonoBehaviour
 {
-    [SerializeField] private GameObject[] weapons = new GameObject[3];
+    [SerializeField] private float primaryMeleeDamage = 50f;
+    [SerializeField] private float secondaryMeleeDamage = 100f;
+    [SerializeField] private float primaryMeleeCooldown = 0.5f;
+    [SerializeField] private float secondaryMeleeCooldown = 1.25f;
 
-    [SerializeField] private int activeWeaponIndex = -1;
+    [SerializeField] private GameObject[] weapons = new GameObject[2];
+    [SerializeField] private Detector detector;
+    private GameObject detectedEnemy;
+    private int activeWeaponIndex = 2;
+    private float currentMeleeCooldown;
+
+    private void Update()
+    {
+        detectedEnemy = detector.GetDetectedEntity();
+
+        if (currentMeleeCooldown >= 0)
+            currentMeleeCooldown -= Time.deltaTime;
+    }
 
     public void SwitchWeapon(int direction)
     {
-        if (CountWeapon() <= 1) return;
+        if (CountWeapon() <= 0) return;
 
-        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
-            weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
+        if (activeWeaponIndex != 2)
+            if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
+                weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
 
         if (direction == 1)
         {
             switch(activeWeaponIndex)
             {
                 case 0:
-                    if (weapons[2] == null) activeWeaponIndex = 1;
-                    else activeWeaponIndex = 2;
+                    //if (weapons[2] == null) activeWeaponIndex = 1;
+                    //else activeWeaponIndex = 2;
+
+                    activeWeaponIndex = 2;
                     break;
 
                 case 1:
@@ -47,8 +65,10 @@ public class WeaponHandle : MonoBehaviour
                     break;
 
                 case 1:
-                    if (weapons[2] == null) activeWeaponIndex = 0;
-                    else activeWeaponIndex = 2;
+                    //if (weapons[2] == null) activeWeaponIndex = 0;
+                    //else activeWeaponIndex = 2;
+
+                    activeWeaponIndex = 2;
                     break;
 
                 case 2:
@@ -72,21 +92,31 @@ public class WeaponHandle : MonoBehaviour
 
     public void WeaponShoot(InputAction.CallbackContext context)
     {
-        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
+        if (activeWeaponIndex == 2)
+        {
+            if (!context.performed) return;
+            StrikeMelee(context.ReadValue<float>());
+        }
+        else
+        {
+            if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
 
-        weapons[activeWeaponIndex].GetComponent<Weapon>().Shoot(context);
+            weapons[activeWeaponIndex].GetComponent<Weapon>().Shoot(context);
+        }
     }
 
     public void WeaponReload()
     {
-        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
+        if (activeWeaponIndex == 2) return;
+
+        if(weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
 
         weapons[activeWeaponIndex].GetComponent<Weapon>().Reload();
     }
 
     public void DropWeapon()
     {
-        if (CountWeapon() <= 0) return;
+        if (CountWeapon() <= 0 || activeWeaponIndex == 2) return;
 
         int selectedWeapon = activeWeaponIndex;
 
@@ -94,7 +124,7 @@ public class WeaponHandle : MonoBehaviour
             weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
 
         if (CountWeapon() - 1 <= 0)
-            activeWeaponIndex = -1;
+            activeWeaponIndex = 2;
         else
             SwitchWeapon(-1);
 
@@ -106,41 +136,56 @@ public class WeaponHandle : MonoBehaviour
 
     public void PickUpWeapon(GameObject weapon)
     {
-        if (activeWeaponIndex != -1)
-        {
-            if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
-        }
+        //if (activeWeaponIndex != -1)
+        //{
+        //    if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
+        //}
 
-        if (CountWeapon() >= 3) return;
+        if (CountWeapon() >= 2) return;
 
         int availableWeapons = CountWeapon();
         int placedWeapon = -1;
 
-        if (weapon.GetComponent<Weapon>().GetWeaponType() == WeaponType.Primary)
+        //if (weapon.GetComponent<Weapon>().GetWeaponType() == WeaponType.Primary)
+        //{
+        //    if (weapons[0] != null && weapons[1] != null) return;
+
+        //    GameObject spanwedWeapon = Instantiate(weapon, transform);
+
+        //    if (weapons[0] != null)
+        //    {
+        //        weapons[1] = spanwedWeapon;
+        //        placedWeapon = 1;
+        //    }
+        //    else
+        //    {
+        //        weapons[0] = spanwedWeapon;
+        //        placedWeapon = 0;
+        //    }
+        //}
+        //else if (weapon.GetComponent<Weapon>().GetWeaponType() == WeaponType.Secondary)
+        //{
+        //    if (weapons[2] != null) return;
+
+        //    GameObject spanwedWeapon = Instantiate(weapon, transform);
+
+        //    weapons[2] = spanwedWeapon;
+        //    placedWeapon = 2;
+        //}
+
+        if (weapons[0] != null && weapons[1] != null) return;
+
+        GameObject spanwedWeapon = Instantiate(weapon, transform);
+
+        if (weapons[0] != null)
         {
-            if (weapons[0] != null && weapons[1] != null) return;
-
-            GameObject spanwedWeapon = Instantiate(weapon, transform);
-
-            if (weapons[0] != null)
-            {
-                weapons[1] = spanwedWeapon;
-                placedWeapon = 1;
-            }
-            else
-            {
-                weapons[0] = spanwedWeapon;
-                placedWeapon = 0;
-            }
+            weapons[1] = spanwedWeapon;
+            placedWeapon = 1;
         }
-        else if (weapon.GetComponent<Weapon>().GetWeaponType() == WeaponType.Secondary)
+        else
         {
-            if (weapons[2] != null) return;
-
-            GameObject spanwedWeapon = Instantiate(weapon, transform);
-
-            weapons[2] = spanwedWeapon;
-            placedWeapon = 2;
+            weapons[0] = spanwedWeapon;
+            placedWeapon = 0;
         }
 
         if (availableWeapons <= 0 && placedWeapon != -1)
@@ -153,14 +198,14 @@ public class WeaponHandle : MonoBehaviour
 
     public int GetWeaponMagazine()
     {
-        if (CountWeapon() <= 0) return -1;
+        if (CountWeapon() <= 0 || activeWeaponIndex == 2) return -1;
 
         return weapons[activeWeaponIndex].GetComponent<Weapon>().GetMagazineAmmo();
     }
 
     public int GetWeaponTotalAmmo()
     {
-        if (CountWeapon() <= 0) return -1;
+        if (CountWeapon() <= 0 || activeWeaponIndex == 2) return -1;
 
         return weapons[activeWeaponIndex].GetComponent<Weapon>().GetTotalAmmo();
     }
@@ -210,8 +255,27 @@ public class WeaponHandle : MonoBehaviour
 
     public bool GetWeaponReloadStatus()
     {
-        if (CountWeapon() <= 0) return false;
+        if (CountWeapon() <= 0 || activeWeaponIndex == 2) return false;
 
         return weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading();
+    }
+
+    public void StrikeMelee(float strikeType)
+    {
+        if (detectedEnemy == null || currentMeleeCooldown > 0) return;
+
+        EntityHealth enemyHealth = detectedEnemy.GetComponent<EntityHealth>();
+        if (enemyHealth == null) return;
+
+        if (strikeType == 1)
+        {
+            enemyHealth.TakeDamage(primaryMeleeDamage);
+            currentMeleeCooldown = primaryMeleeCooldown;
+        }
+        else if (strikeType == 2)
+        {
+            enemyHealth.TakeDamage(secondaryMeleeDamage);
+            currentMeleeCooldown = secondaryMeleeCooldown;
+        }
     }
 }

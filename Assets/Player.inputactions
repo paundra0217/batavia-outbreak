@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Fire",
                     "type": "Button",
                     "id": "5cf0a9e8-6390-4925-82cb-a467aeab4611",
                     "expectedControlType": "Button",
@@ -132,9 +132,20 @@
                     "id": "e1ee7d02-29c7-4353-bae2-4ef194b19c11",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Scale",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42a9d5f0-a5a4-41c1-ba0e-29a761112cf3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -177,17 +188,6 @@
                     "path": "<Keyboard>/2",
                     "interactions": "Press",
                     "processors": "Scale(factor=2)",
-                    "groups": "",
-                    "action": "GoToWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e8e674f3-7ec8-4375-b7f9-0f1a77619c86",
-                    "path": "<Keyboard>/3",
-                    "interactions": "Press",
-                    "processors": "Scale(factor=3)",
                     "groups": "",
                     "action": "GoToWeapon",
                     "isComposite": false,

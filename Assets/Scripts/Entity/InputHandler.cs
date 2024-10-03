@@ -10,8 +10,8 @@ public class InputHandler : MonoBehaviour
     public void ShootAction(InputAction.CallbackContext context)
     {
         if (weaponHandle == null) return;
-        if (weaponHandle.transform.childCount <= 0) return;
 
+        //if (weaponHandle.transform.childCount <= 0) return;
         //weaponHandle.transform.GetChild(0).GetComponent<Weapon>().Shoot(context);
 
         weaponHandle.GetComponent<WeaponHandle>().WeaponShoot(context);

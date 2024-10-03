@@ -7,19 +7,29 @@ public class Projectile : MonoBehaviour
     private Vector3 initialPos;
     private Vector3 collidePos;
     private float distance;
+    private Light projectileLight;
+    private float lightLast = 0.002f;
 
     private void Awake()
     {
         initialPos = transform.position;
+        projectileLight = GetComponent<Light>();
+
+        projectileLight.enabled = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (lightLast <= 0)
+            projectileLight.enabled = false;
+
         if (bulletLast <= 0)
             Destroy(gameObject);
 
         bulletLast -= Time.deltaTime;
+        lightLast -= Time.deltaTime;
     }
 
     public void SetDamage(float damage)

@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float timePerStrike = 0.5f;
     [SerializeField] private int baseHealth = 100;
     [SerializeField] private int baseWorth = 10;
-    [SerializeField] private EnemyDetector detector;
+    [SerializeField] private Detector detector;
     [SerializeField, Range(1, 10)] private int enemyLevel = 1;
 
     private Guid enemyID;
@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
             agent.SetDestination(transform.position);
 
         //DetectPlayer();
-        player = detector.GetDetectedPlayer();
+        player = detector.GetDetectedEntity();
     }
 
     private void FixedUpdate()

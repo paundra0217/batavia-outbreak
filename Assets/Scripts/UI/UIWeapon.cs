@@ -28,7 +28,7 @@ public class UIWeapon : MonoBehaviour
 
         weaponHandle = GameObject.Find("Player/WeaponHandle").GetComponent<WeaponHandle>();
 
-        if (weaponHandle.GetWeaponIndex() == -1)
+        if (weaponHandle.GetWeaponIndex() == 2)
         {
             ClearAmmoIndicator();
             return;
