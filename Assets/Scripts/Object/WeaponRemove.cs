@@ -6,8 +6,6 @@ public class WeaponRemove : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        print("Removing weapon");
-
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject player = other.gameObject;

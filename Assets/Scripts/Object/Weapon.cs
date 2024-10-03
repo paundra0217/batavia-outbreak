@@ -215,6 +215,14 @@ public class Weapon : MonoBehaviour
         StartCoroutine("ReloadAnimation");
     }
 
+    public void AbortReload()
+    {
+        if (!isReloading) return;
+
+        StopCoroutine("ReloadAniamtion");
+        isReloading = false;
+    }
+
     public int GetMagazineAmmo()
     {
         return magazine;

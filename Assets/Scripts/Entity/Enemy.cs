@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float timePerStrike = 0.5f;
     [SerializeField] private int baseHealth = 100;
     [SerializeField] private int baseWorth = 10;
+    [SerializeField] private EnemyDetector detector;
     [SerializeField, Range(1, 10)] private int enemyLevel = 1;
 
     private Guid enemyID;
@@ -40,7 +41,8 @@ public class Enemy : MonoBehaviour
         else
             agent.SetDestination(transform.position);
 
-        DetectPlayer();
+        //DetectPlayer();
+        player = detector.GetDetectedPlayer();
     }
 
     private void FixedUpdate()
@@ -75,20 +77,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void DetectPlayer()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 1.2f))
-        {
-            if (!hit.collider.gameObject.CompareTag("Player")) return;
+    //private void DetectPlayer()
+    //{
+    //    RaycastHit hit;
+    //    if (Physics.Raycast(transform.position, transform.forward, out hit, 1.2f))
+    //    {
+    //        if (!hit.collider.gameObject.CompareTag("Player")) return;
 
-            player = hit.collider.gameObject;
-        }
-        else
-        {
-            player = null;
-        }
-    }
+    //        player = hit.collider.gameObject;
+    //    }
+    //    else
+    //    {
+    //        player = null;
+    //    }
+    //}
 
     private void StrikePlayer()
     {

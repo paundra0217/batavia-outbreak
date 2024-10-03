@@ -8,8 +8,6 @@ public class WeaponEquip : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Equipping weapon");
-
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject player = other.gameObject;

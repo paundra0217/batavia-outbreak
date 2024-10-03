@@ -14,7 +14,8 @@ public class WeaponHandle : MonoBehaviour
     {
         if (CountWeapon() <= 1) return;
 
-        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
+        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
+            weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
 
         if (direction == 1)
         {
@@ -85,9 +86,12 @@ public class WeaponHandle : MonoBehaviour
 
     public void DropWeapon()
     {
+        if (CountWeapon() <= 0) return;
+
         int selectedWeapon = activeWeaponIndex;
 
-        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
+        if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
+            weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
 
         if (CountWeapon() - 1 <= 0)
             activeWeaponIndex = -1;
