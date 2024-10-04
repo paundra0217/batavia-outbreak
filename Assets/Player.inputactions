@@ -192,6 +192,17 @@
                     "action": "GoToWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbbc4729-782c-4d22-b8e7-107a7b150877",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "GoToWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

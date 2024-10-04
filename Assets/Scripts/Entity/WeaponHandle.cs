@@ -8,7 +8,7 @@ public class WeaponHandle : MonoBehaviour
     [SerializeField] private float primaryMeleeCooldown = 0.5f;
     [SerializeField] private float secondaryMeleeCooldown = 1.25f;
 
-    [SerializeField] private GameObject[] weapons = new GameObject[2];
+    [SerializeField] private GameObject[] weapons = new GameObject[3];
     [SerializeField] private Detector detector;
     private GameObject detectedEnemy;
     private int activeWeaponIndex = 2;
@@ -28,7 +28,7 @@ public class WeaponHandle : MonoBehaviour
 
         if (activeWeaponIndex != 2)
             if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
-                weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
+                weapons[activeWeaponIndex].GetComponent<Weapon>().CancelReload();
 
         if (direction == 1)
         {
@@ -118,7 +118,7 @@ public class WeaponHandle : MonoBehaviour
         int selectedWeapon = activeWeaponIndex;
 
         if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
-            weapons[activeWeaponIndex].GetComponent<Weapon>().AbortReload();
+            weapons[activeWeaponIndex].GetComponent<Weapon>().CancelReload();
 
         if (CountWeapon() - 1 <= 0)
             activeWeaponIndex = 2;
@@ -213,24 +213,25 @@ public class WeaponHandle : MonoBehaviour
         foreach (var weapon in weapons)
         {
             if (weapon != null)
-                amount++;
-        }
-
-        return amount;
-    }
-
-    private int CountPrimaryWeapon()
-    {
-        int amount = 0;
-        foreach (var weapon in weapons)
-        {
-            if (weapon != null)
-                if (weapon.GetComponent<Weapon>().GetWeaponType() == WeaponType.Primary) 
+                if (weapon.GetComponent<Weapon>() != null)
                     amount++;
         }
 
         return amount;
     }
+
+    //private int CountPrimaryWeapon()
+    //{
+    //    int amount = 0;
+    //    foreach (var weapon in weapons)
+    //    {
+    //        if (weapon != null)
+    //            if (weapon.GetComponent<Weapon>().GetWeaponType() == WeaponType.Primary) 
+    //                amount++;
+    //    }
+
+    //    return amount;
+    //}
 
     private void RefreshWeaponInventory()
     {
@@ -239,7 +240,13 @@ public class WeaponHandle : MonoBehaviour
             if (weapons[i] == null) continue;
 
             if (i == activeWeaponIndex)
+            {
                 weapons[i].SetActive(true);
+
+                if (activeWeaponIndex != 2)
+                    if (weapons[i].GetComponent<Weapon>().GetMagazineAmmo() <= 0)
+                        weapons[i].GetComponent<Weapon>().Reload();
+            }
             else
                 weapons[i].SetActive(false);
         }

@@ -46,6 +46,8 @@ public class UIWeapon : MonoBehaviour
         //    return;
         //}
 
+        DisplayAmmoIndicator();
+
         labelReloading.enabled = weaponHandle.GetWeaponReloadStatus();
 
         labelMagazine.text = weaponHandle.GetWeaponMagazine().ToString();
@@ -54,8 +56,17 @@ public class UIWeapon : MonoBehaviour
 
     private void ClearAmmoIndicator()
     {
-        labelMagazine.text = "-";
-        labelTotalBullets.text = "/ -";
+        //labelMagazine.text = "-";
+        //labelTotalBullets.text = "/ -";
+
+        labelMagazine.enabled = false;
+        labelTotalBullets.enabled = false;
         labelReloading.enabled = false;
+    }
+
+    private void DisplayAmmoIndicator()
+    {
+        labelMagazine.enabled = true;
+        labelTotalBullets.enabled = true;
     }
 }

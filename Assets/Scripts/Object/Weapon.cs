@@ -84,6 +84,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float bulletAirSpeed = 10f;
     [SerializeField] private float damage = 100f;
     [SerializeField] private float timeBulletLast = 10f;
+    [SerializeField] private float fireFlashTime = 0.02f;
 
     private int magazine;
     private int currentTotalBullets;
@@ -92,11 +93,13 @@ public class Weapon : MonoBehaviour
     private bool isPressed;
     private bool isReloading;
     private float fireCooldownTime;
+    private float flashTime = 0f;
 
     private void Awake()
     {
         projectileSpawner.GetComponent<Light>().enabled = false;
     }
+
     private void Start()
     {
         magazine = bulletPerMagazine;
@@ -107,8 +110,18 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (fireCooldownTime >= 0)
+        if (fireCooldownTime > 0)
             fireCooldownTime -= Time.deltaTime;
+
+        if (flashTime > 0)
+        {
+            projectileSpawner.GetComponent<Light>().enabled = true;
+            flashTime -= Time.deltaTime;
+        }
+        else
+        {
+            projectileSpawner.GetComponent<Light>().enabled = false;
+        }
     }
 
     private void CalculateFireRate()
@@ -172,7 +185,7 @@ public class Weapon : MonoBehaviour
 
     private void SpawnProjectile()
     {
-        projectileSpawner.GetComponent<Light>().enabled = true;
+        flashTime = fireFlashTime;
 
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
         spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
@@ -180,8 +193,6 @@ public class Weapon : MonoBehaviour
         spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
 
         magazine--;
-
-        projectileSpawner.GetComponent<Light>().enabled = false;
 
         if (magazine <= 0)
         {
@@ -223,9 +234,11 @@ public class Weapon : MonoBehaviour
         StartCoroutine("ReloadAnimation");
     }
 
-    public void AbortReload()
+    public void CancelReload()
     {
         if (!isReloading) return;
+
+        print("Reload cancelled");
 
         StopCoroutine("ReloadAniamtion");
         isReloading = false;

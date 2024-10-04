@@ -395,17 +395,17 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3983864198730268577}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 0.8114382, b: 0.4584905, a: 1}
-  m_Intensity: 2
-  m_Range: 3
+  m_Intensity: 10
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -535,6 +535,7 @@ MonoBehaviour:
   bulletAirSpeed: 300
   damage: 12
   timeBulletLast: 1
+  fireFlashTime: 0.02
 --- !u!1 &8497148806736193751
 GameObject:
   m_ObjectHideFlags: 0
