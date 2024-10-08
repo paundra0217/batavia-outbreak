@@ -525,12 +525,13 @@ MonoBehaviour:
   weaponType: 1
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
-  weaponIcon: {fileID: 21300000, guid: 83fd1674adce40543abd8348407c86fc, type: 3}
+  weaponIcon: {fileID: 21300000, guid: 2d6d4901b9fc984489c950098234778e, type: 3}
   firingMode: 0
   firingCooldown: 0
   bulletsPerBurst: 0
   roundsPerMinute: 0
   reloadTime: 1
+  slowDownWalkSpeed: 100
   bulletPerMagazine: 7
   totalBullets: 42
   bulletAirSpeed: 300

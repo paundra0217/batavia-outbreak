@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class UIWeapons : MonoBehaviour
 {
+    [SerializeField] private float iconHeight = 48f;
     private WeaponHandle weaponHandle;
 
     // Update is called once per frame
@@ -38,7 +39,14 @@ public class UIWeapons : MonoBehaviour
             weaponIconImage.enabled = true;
             Weapon weapon = weaponHandle.GetWeaponByIndex(i).GetComponent<Weapon>();
 
-            weaponIconImage.sprite = i == 2 ? weaponHandle.meleeIcon : weapon.weaponIcon;
+            Sprite newWeaponIcon = i == 2 ? newWeaponIcon = weaponHandle.meleeIcon : newWeaponIcon = weapon.weaponIcon;
+            Vector3 newWeaponIconSize = newWeaponIcon.bounds.size * 100f;   
+
+            newWeaponIconSize.x = newWeaponIconSize.x * iconHeight / newWeaponIconSize.y;
+            newWeaponIconSize.y = iconHeight;
+
+            weaponIconImage.sprite = newWeaponIcon;
+            weaponIconImage.rectTransform.sizeDelta = newWeaponIconSize;
             weaponIcon.GetComponent<CanvasGroup>().alpha = weaponHandle.GetActiveWeaponIndex() == i ? 1f : 0.25f;
         }
     }

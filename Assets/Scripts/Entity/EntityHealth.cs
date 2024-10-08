@@ -3,6 +3,7 @@ using UnityEngine;
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField] private float health = 100f;
+    [Range(0f, 1f), SerializeField] private float healthPercentageWarning = 0.25f;
 
     private float currentHealth;
 
@@ -14,6 +15,16 @@ public class EntityHealth : MonoBehaviour
     public float GetHealthByDecimal()
     {
         return currentHealth / health;
+    }
+
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
+
+    public float GetHealthWarning()
+    {
+        return healthPercentageWarning * health;
     }
 
     public void SetHealth(float health)

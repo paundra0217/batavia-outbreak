@@ -4,15 +4,21 @@ using UnityEngine;
 public class UIMagazine : MonoBehaviour
 {
     [SerializeField] private TMP_Text labelMagazine;
-    [SerializeField] private TMP_Text labelTotalBullets;
+    [SerializeField] private TMP_Text labelTotalAmmo;
     [SerializeField] private TMP_Text labelReloading;
 
     //private Weapon weapon;
     private WeaponHandle weaponHandle;
+    private bool magazineAlreadyWarned;
+    private bool totalAmmoAlreadyWarned;
+    private Animation labelMagazineAnimation;
+    private Animation labelTotalAmmoAnimation;
 
     private void Awake()
     {
         labelReloading.enabled = false;
+        labelMagazineAnimation = labelMagazine.gameObject.GetComponent<Animation>();
+        labelTotalAmmoAnimation = labelTotalAmmo.gameObject.GetComponent<Animation>();
     }
 
     // Update is called once per frame
@@ -50,8 +56,42 @@ public class UIMagazine : MonoBehaviour
 
         labelReloading.enabled = weaponHandle.GetWeaponReloadStatus();
 
-        labelMagazine.text = weaponHandle.GetWeaponMagazine().ToString();
-        labelTotalBullets.text = string.Format("/ {0}", weaponHandle.GetWeaponTotalAmmo().ToString());
+        int magazine = weaponHandle.GetWeaponMagazine();
+        int totalAmmo = weaponHandle.GetWeaponTotalAmmo();
+
+        labelMagazine.text = magazine.ToString();
+        labelTotalAmmo.text = string.Format("/ {0}", totalAmmo.ToString());
+
+        if (magazine <= weaponHandle.GetWeaponMagazineWarning())
+        {
+            if (!magazineAlreadyWarned)
+            {
+                magazineAlreadyWarned = true;
+                labelMagazineAnimation.Play();
+            }
+        }
+        else
+        {
+            magazineAlreadyWarned = false;
+            labelMagazineAnimation.Stop();
+            labelMagazine.color = Color.white;
+        }
+
+        if (totalAmmo <= weaponHandle.GetWeaponTotalAmmoWarning())
+        {
+            print(totalAmmoAlreadyWarned);
+            if (!totalAmmoAlreadyWarned)
+            {
+                totalAmmoAlreadyWarned = true;
+                labelTotalAmmoAnimation.Play();
+            }
+        }
+        else
+        {
+            totalAmmoAlreadyWarned = false;
+            labelTotalAmmoAnimation.Stop();
+            labelTotalAmmo.color = Color.white;
+        }
     }
 
     private void ClearAmmoIndicator()
@@ -60,13 +100,13 @@ public class UIMagazine : MonoBehaviour
         //labelTotalBullets.text = "/ -";
 
         labelMagazine.enabled = false;
-        labelTotalBullets.enabled = false;
+        labelTotalAmmo.enabled = false;
         labelReloading.enabled = false;
     }
 
     private void DisplayAmmoIndicator()
     {
         labelMagazine.enabled = true;
-        labelTotalBullets.enabled = true;
+        labelTotalAmmo.enabled = true;
     }
 }

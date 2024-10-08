@@ -98,7 +98,11 @@ public class EnemyManager : MonoBehaviour
         EnemyObject selectedEnemy = enemies.FirstOrDefault(e => enemyID == e.enemyID);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        player.GetComponent<PlayerCurrency>().AddCurrency(selectedEnemy.enemy.GetComponent<Enemy>().GetEnemyWorth());
+        if (selectedEnemy.enemy)
+        {
+            int enemyWorth = selectedEnemy.enemy.GetComponent<Enemy>().GetEnemyWorth();
+            player.GetComponent<PlayerCurrency>().AddCurrency(enemyWorth);
+        }
 
         Destroy(selectedEnemy.enemy);
 

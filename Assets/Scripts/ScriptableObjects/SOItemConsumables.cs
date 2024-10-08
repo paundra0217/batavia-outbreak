@@ -9,7 +9,7 @@ public enum ConsumableTypes
 }
 
 [Serializable]
-public class ItemConsumableAttributes
+public class ItemConsumableAttribute
 {
     public ConsumableTypes type;
     public float buff;
@@ -21,5 +21,5 @@ public class SOItemConsumables : ScriptableObject
 {
     public string itemName;
     public Sprite itemIcon;
-    public ItemConsumableAttributes[] attributes;
+    public ItemConsumableAttribute[] attributes;
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ItemUpgradeAttributes
+public class ItemUpgradeAttribute
 {
     public PlayerStatsTypes type;
     public float buff;
@@ -13,5 +13,5 @@ public class SOItemUpgrades : ScriptableObject
 {
     public string itemName;
     public Sprite itemIcon;
-    public ItemUpgradeAttributes[] attributes;
+    public ItemUpgradeAttribute[] attributes;
 }

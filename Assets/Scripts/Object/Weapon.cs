@@ -78,10 +78,11 @@ public class Weapon : MonoBehaviour
     [SerializeField, HideInInspector]
     private int roundsPerMinute;
     [SerializeField] private float reloadTime = 3f;
+    public float slowDownWalkSpeed = 100f;
 
     [Header("Magazine and Bullet Configuration")]
-    [SerializeField] private int bulletPerMagazine;
-    [SerializeField] private int totalBullets;
+    public int bulletPerMagazine;
+    public int totalBullets;
     [SerializeField] private float bulletAirSpeed = 10f;
     [SerializeField] private float damage = 100f;
     [SerializeField] private float timeBulletLast = 10f;

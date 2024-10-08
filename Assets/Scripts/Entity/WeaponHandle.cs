@@ -7,6 +7,7 @@ public class WeaponHandle : MonoBehaviour
     [SerializeField] private float secondaryMeleeDamage = 100f;
     [SerializeField] private float primaryMeleeCooldown = 0.5f;
     [SerializeField] private float secondaryMeleeCooldown = 1.25f;
+    [Range(0f, 1f), SerializeField] private float magazinePercentageWarning = 0.25f;
     public Sprite meleeIcon;
 
     [SerializeField] private GameObject[] weapons = new GameObject[3];
@@ -88,6 +89,10 @@ public class WeaponHandle : MonoBehaviour
     public void GoToWeapon(int index)
     {
         if (weapons[index - 1] == null) return;
+
+        if (activeWeaponIndex != 2)
+            if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading())
+                weapons[activeWeaponIndex].GetComponent<Weapon>().CancelReload();
 
         activeWeaponIndex = index - 1;
 
@@ -274,6 +279,24 @@ public class WeaponHandle : MonoBehaviour
         if (CountWeapon() <= 0 || activeWeaponIndex == 2) return false;
 
         return weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading();
+    }
+
+    public int GetWeaponMagazineWarning()
+    {
+        if (activeWeaponIndex == 2) return -1;
+
+        if (weapons[activeWeaponIndex] == null) return -1;
+
+        return (int)(magazinePercentageWarning * (float)weapons[activeWeaponIndex].GetComponent<Weapon>().bulletPerMagazine);
+    }
+
+    public int GetWeaponTotalAmmoWarning()
+    {
+        if (activeWeaponIndex == 2) return -1;
+
+        if (weapons[activeWeaponIndex] == null) return -1;
+
+        return (int)(magazinePercentageWarning * (float)weapons[activeWeaponIndex].GetComponent<Weapon>().totalBullets);
     }
 
     public void StrikeMelee(float strikeType)
