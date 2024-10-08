@@ -1,7 +1,17 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+[Serializable]
+public class WaveData
+{
+    public string WaveName;
+    public int enemyCount;
+    public GameObject[] spawnPoints;
+    public float spawnInterval = 0.1f;
+}
 
 [Serializable]
 public class EnemyObject
@@ -19,12 +29,15 @@ public class EnemyObject
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private GameObject enemy;
-    [SerializeField] private GameObject[] spawnPoints;
+    [SerializeField] private GameObject[] currentSpawnPoints;
+    [SerializeField] private List<WaveData> waves = new List<WaveData>();
 
     private static List<EnemyObject> enemies = new List<EnemyObject>();
     private static EnemyManager _instance;
     private static float spawnCooldown;
     private static bool toggleContinuousSpawn;
+    private static WaveData currentWave;
+    private static int enemiesInQueue;
 
     private void Awake()
     {
@@ -60,15 +73,15 @@ public class EnemyManager : MonoBehaviour
         GameObject spawnedEnemy;
         Guid spawnedEnemyID;
 
-        if (_instance.spawnPoints.Length > 0)
+        if (_instance.currentSpawnPoints.Length > 0)
         {
             int spawnIndex;
             if (spawnPoint <= -1)
-                spawnIndex = UnityEngine.Random.Range(0, _instance.spawnPoints.Length);
+                spawnIndex = UnityEngine.Random.Range(0, _instance.currentSpawnPoints.Length);
             else
                 spawnIndex = spawnPoint;
 
-            spawnedEnemy = Instantiate(_instance.enemy, _instance.spawnPoints[spawnIndex].transform);
+            spawnedEnemy = Instantiate(_instance.enemy, _instance.currentSpawnPoints[spawnIndex].transform);
             spawnedEnemyID = spawnedEnemy.GetComponent<Enemy>().GetEnemyID();
         }
         else
@@ -90,6 +103,8 @@ public class EnemyManager : MonoBehaviour
         Destroy(selectedEnemy.enemy);
 
         enemies.Remove(selectedEnemy);
+
+        CheckZombiesCount();
     }
 
     public static void ClearEnemy()
@@ -116,6 +131,55 @@ public class EnemyManager : MonoBehaviour
             Guid prespawnedEnemyID = enemy.GetComponent<Enemy>().GetEnemyID();
 
             enemies.Add(new EnemyObject(prespawnedEnemyID, enemy));
+        }
+    }
+
+    public static void StartWave(string waveName)
+    {
+        if (currentWave != null)
+        {
+            Debug.LogWarning("Wave is still running");
+            return;
+        }
+
+        currentWave = _instance.waves.FirstOrDefault(e => e.WaveName == waveName);
+        _instance.currentSpawnPoints = currentWave.spawnPoints;
+        enemiesInQueue = currentWave.enemyCount;
+
+        _instance.StartCoroutine("StartWaveProcess");
+    }
+
+    public static void EndWave()
+    {
+        if (currentWave == null)
+        {
+            Debug.LogWarning("No wave is running");
+            return;
+        }
+
+        currentWave = null;
+    }
+
+    IEnumerator StartWaveProcess()
+    {
+        for (int i = 0; i < currentWave.enemyCount; i++)
+        {
+            SpawnEnemy();
+            enemiesInQueue--;
+
+            yield return new WaitForSeconds(currentWave.spawnInterval);
+        }
+    }
+
+    private static void CheckZombiesCount()
+    {
+        if (currentWave == null) return;
+
+        if (enemiesInQueue <= 0) return;
+
+        if (GetEnemyCount() <= 0)
+        {
+            EndWave();
         }
     }
 

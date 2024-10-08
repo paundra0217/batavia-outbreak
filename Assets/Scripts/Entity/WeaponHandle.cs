@@ -7,12 +7,19 @@ public class WeaponHandle : MonoBehaviour
     [SerializeField] private float secondaryMeleeDamage = 100f;
     [SerializeField] private float primaryMeleeCooldown = 0.5f;
     [SerializeField] private float secondaryMeleeCooldown = 1.25f;
+    public Sprite meleeIcon;
 
     [SerializeField] private GameObject[] weapons = new GameObject[3];
     [SerializeField] private Detector detector;
     private GameObject detectedEnemy;
     private int activeWeaponIndex = 2;
     private float currentMeleeCooldown;
+
+    private void Awake()
+    {
+        GameObject meleeObject = transform.Find("Knife").gameObject;
+        weapons[2] = meleeObject;
+    }
 
     private void Update()
     {
@@ -252,7 +259,12 @@ public class WeaponHandle : MonoBehaviour
         }
     }
 
-    public int GetWeaponIndex()
+    public GameObject GetWeaponByIndex(int index)
+    {
+        return weapons[index];
+    }
+
+    public int GetActiveWeaponIndex()
     {
         return activeWeaponIndex;
     }

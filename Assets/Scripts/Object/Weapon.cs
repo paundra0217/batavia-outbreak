@@ -66,6 +66,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private WeaponType weaponType;
     [SerializeField] private AudioClip shootingSound;
     [SerializeField] private AudioClip reloadSound;
+    public Sprite weaponIcon;
 
     [Header("Weapon Behaviour")]
     [SerializeField, HideInInspector]

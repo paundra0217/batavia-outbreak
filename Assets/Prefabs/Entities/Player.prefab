@@ -124,10 +124,11 @@ MonoBehaviour:
   secondaryMeleeDamage: 100
   primaryMeleeCooldown: 0.5
   secondaryMeleeCooldown: 1.25
+  meleeIcon: {fileID: 21300000, guid: 0ca75cc190bcbfe4cb8d3d0089ff3401, type: 3}
   weapons:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 6260766800984054154}
+  - {fileID: 0}
   detector: {fileID: 4954548996318562748}
 --- !u!1 &5163705777766492541
 GameObject:
@@ -789,12 +790,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23012af55dbf1d740a0043a2c60276a6, type: 3}
---- !u!1 &6260766800984054154 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3058491493779526350, guid: 23012af55dbf1d740a0043a2c60276a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 8976597591575677764}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6926674158230437507 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2068060982660117959, guid: 23012af55dbf1d740a0043a2c60276a6,

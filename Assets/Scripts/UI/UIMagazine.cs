@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class UIWeapon : MonoBehaviour
+public class UIMagazine : MonoBehaviour
 {
     [SerializeField] private TMP_Text labelMagazine;
     [SerializeField] private TMP_Text labelTotalBullets;
@@ -26,7 +26,7 @@ public class UIWeapon : MonoBehaviour
 
         weaponHandle = GameObject.Find("Player/WeaponHandle").GetComponent<WeaponHandle>();
 
-        if (weaponHandle.GetWeaponIndex() == 2)
+        if (weaponHandle.GetActiveWeaponIndex() == 2)
         {
             ClearAmmoIndicator();
             return;
