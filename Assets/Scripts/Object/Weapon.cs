@@ -102,6 +102,7 @@ public class Weapon : MonoBehaviour
     private float flashTime = 0f;
     private float currentSpreadStage = 0f;
     private float normalSpreadStage = 0f;
+    private float maxSpreadStage = 1f;
 
     private void Awake()
     {
@@ -132,12 +133,18 @@ public class Weapon : MonoBehaviour
         }
 
         if (transform.GetComponentInParent<WeaponHandle>().IsPlayerMoving())
+        {
             normalSpreadStage = walkingSpeedStage;
+            maxSpreadStage = 1f + walkingSpeedStage;
+        }
         else
+        {
             normalSpreadStage = 0f;
+            maxSpreadStage = 1f;
+        }
 
         if (currentSpreadStage != normalSpreadStage)
-            currentSpreadStage = currentSpreadStage - (Mathf.Sign(currentSpreadStage - normalSpreadStage) * 0.005f);
+            currentSpreadStage -= Mathf.Sign(currentSpreadStage - normalSpreadStage) * 0.003f;
     }
 
     private void OnDisable()
@@ -224,10 +231,10 @@ public class Weapon : MonoBehaviour
         magazine--;
 
         currentSpreadStage += spreadIncrement;
-        if (currentSpreadStage > 1f)
-        {
-            currentSpreadStage = 1f;
-        }
+        if (currentSpreadStage > maxSpreadStage)
+            currentSpreadStage = maxSpreadStage;
+
+        print(currentSpreadStage);
 
         if (magazine <= 0)
         {

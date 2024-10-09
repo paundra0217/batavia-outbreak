@@ -79,7 +79,6 @@ public class UIMagazine : MonoBehaviour
 
         if (totalAmmo <= weaponHandle.GetWeaponTotalAmmoWarning())
         {
-            print(totalAmmoAlreadyWarned);
             if (!totalAmmoAlreadyWarned)
             {
                 totalAmmoAlreadyWarned = true;
