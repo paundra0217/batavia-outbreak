@@ -65,14 +65,14 @@ public class UIHealth : MonoBehaviour
 
     private void DisplayHealth()
     {
-        txtHealthAnimation.enabled = true;
+        txtHealth.enabled = true;
         imgHealthBarEmpty.enabled = true;
         imgHealthBarFill.enabled = true;
     }
 
     private void HideHealth()
     {
-        txtHealthAnimation.enabled = false;
+        txtHealth.enabled = false;
         imgHealthBarEmpty.enabled = false;
         imgHealthBarFill.enabled = false;
     }

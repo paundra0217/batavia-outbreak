@@ -317,4 +317,11 @@ public class WeaponHandle : MonoBehaviour
             currentMeleeCooldown = secondaryMeleeCooldown;
         }
     }
+
+    public bool IsPlayerMoving()
+    {
+        CharacterController controller = transform.GetComponentInParent<CharacterController>();
+
+        return controller.velocity.magnitude > 0;
+    }
 }

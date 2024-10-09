@@ -79,6 +79,10 @@ public class Weapon : MonoBehaviour
     private int roundsPerMinute;
     [SerializeField] private float reloadTime = 3f;
     public float slowDownWalkSpeed = 100f;
+    [SerializeField] private float horizontalSpread = 0f;
+    [SerializeField] private float verticalSpread = 0f;
+    [SerializeField] private float spreadIncrement = 0.1f;
+    [SerializeField] private float walkingSpeedStage = 0.1f;
 
     [Header("Magazine and Bullet Configuration")]
     public int bulletPerMagazine;
@@ -96,6 +100,8 @@ public class Weapon : MonoBehaviour
     private bool isReloading;
     private float fireCooldownTime;
     private float flashTime = 0f;
+    private float currentSpreadStage = 0f;
+    private float normalSpreadStage = 0f;
 
     private void Awake()
     {
@@ -124,6 +130,19 @@ public class Weapon : MonoBehaviour
         {
             projectileSpawner.GetComponent<Light>().enabled = false;
         }
+
+        if (transform.GetComponentInParent<WeaponHandle>().IsPlayerMoving())
+            normalSpreadStage = walkingSpeedStage;
+        else
+            normalSpreadStage = 0f;
+
+        if (currentSpreadStage != normalSpreadStage)
+            currentSpreadStage = currentSpreadStage - (Mathf.Sign(currentSpreadStage - normalSpreadStage) * 0.005f);
+    }
+
+    private void OnDisable()
+    {
+        currentSpreadStage = 0f;
     }
 
     private void CalculateFireRate()
@@ -192,9 +211,23 @@ public class Weapon : MonoBehaviour
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
         spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
         spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
-        spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
+
+        float currentVerticalSpread = Random.Range(-(verticalSpread * currentSpreadStage), verticalSpread * currentSpreadStage);
+        float currentHorizontalSpread = Random.Range(-(horizontalSpread * currentSpreadStage), horizontalSpread * currentSpreadStage);
+
+        Debug.LogFormat("{0} {1}", currentVerticalSpread, currentHorizontalSpread);
+
+        Vector3 velocityDirection = transform.TransformVector(currentHorizontalSpread, currentVerticalSpread, 1f);
+
+        spawnedProjectile.GetComponent<Rigidbody>().velocity = velocityDirection * bulletAirSpeed;
 
         magazine--;
+
+        currentSpreadStage += spreadIncrement;
+        if (currentSpreadStage > 1f)
+        {
+            currentSpreadStage = 1f;
+        }
 
         if (magazine <= 0)
         {
