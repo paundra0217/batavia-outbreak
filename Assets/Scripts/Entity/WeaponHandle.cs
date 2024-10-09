@@ -281,6 +281,13 @@ public class WeaponHandle : MonoBehaviour
         return weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading();
     }
 
+    public float GetWeaponReloadProgress()
+    {
+        if (CountWeapon() <= 0 || activeWeaponIndex == 2) return -1f;
+
+        return weapons[activeWeaponIndex].GetComponent<Weapon>().GetReloadProgress();
+    }
+
     public int GetWeaponMagazineWarning()
     {
         if (activeWeaponIndex == 2) return -1;

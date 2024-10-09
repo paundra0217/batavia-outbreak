@@ -60,7 +60,7 @@ public class UIMagazine : MonoBehaviour
         int totalAmmo = weaponHandle.GetWeaponTotalAmmo();
 
         labelMagazine.text = magazine.ToString();
-        labelTotalAmmo.text = string.Format("/ {0}", totalAmmo.ToString());
+        labelTotalAmmo.text = string.Format(" / {0}", totalAmmo.ToString());
 
         if (magazine <= weaponHandle.GetWeaponMagazineWarning())
         {

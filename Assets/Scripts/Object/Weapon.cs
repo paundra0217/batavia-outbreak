@@ -103,6 +103,7 @@ public class Weapon : MonoBehaviour
     private float currentSpreadStage = 0f;
     private float normalSpreadStage = 0f;
     private float maxSpreadStage = 1f;
+    private float currentReloadingTime = 0f;
 
     private void Awake()
     {
@@ -145,6 +146,10 @@ public class Weapon : MonoBehaviour
 
         if (currentSpreadStage != normalSpreadStage)
             currentSpreadStage -= Mathf.Sign(currentSpreadStage - normalSpreadStage) * 0.003f;
+
+        if (currentReloadingTime > 0)
+            currentReloadingTime -= Time.deltaTime;
+
     }
 
     private void OnDisable()
@@ -273,6 +278,8 @@ public class Weapon : MonoBehaviour
         if (magazine >= bulletPerMagazine || currentTotalBullets <= 0 || isReloading) return;
 
         print("Reloading");
+        currentReloadingTime = reloadTime;
+        print(currentReloadingTime);
         StartCoroutine("ReloadAnimation");
     }
 
@@ -309,5 +316,11 @@ public class Weapon : MonoBehaviour
     public WeaponType GetWeaponType()
     {
         return weaponType;
+    }
+
+    public float GetReloadProgress()
+    {
+        print((currentReloadingTime));
+        return (reloadTime - currentReloadingTime) / reloadTime;
     }
 }
