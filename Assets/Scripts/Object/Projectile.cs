@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    private GameObject sourceWeapon;
     private float damage;
     private float bulletLast;
     private Vector3 initialPos;
@@ -32,13 +33,10 @@ public class Projectile : MonoBehaviour
         //lightLast -= Time.deltaTime;
     }
 
-    public void SetDamage(float damage)
+    public void SetUpProjectile(GameObject sourceWeapon, float damage, float time)
     {
+        this.sourceWeapon = sourceWeapon;
         this.damage = damage;
-    }
-
-    public void SetBulletLast(float time)
-    {
         bulletLast = time;
     }
 

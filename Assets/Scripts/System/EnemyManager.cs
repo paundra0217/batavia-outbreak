@@ -31,6 +31,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject enemy;
     [SerializeField] private GameObject[] currentSpawnPoints;
     [SerializeField] private List<WaveData> waves = new List<WaveData>();
+    [SerializeField] private GameObject medicItem;
+    [SerializeField] private GameObject ammoItem;
 
     private static List<EnemyObject> enemies = new List<EnemyObject>();
     private static EnemyManager _instance;
@@ -60,12 +62,46 @@ public class EnemyManager : MonoBehaviour
         spawnCooldown -= Time.deltaTime;
     }
 
-    private static void SpawnEnemies()
+    private void SpawnEnemies()
     {
         if (!toggleContinuousSpawn) return;
 
         SpawnEnemy();
         spawnCooldown = 1f;
+    }
+
+    private void SpawnItem(Transform location)
+    {
+        int itemDropChance = UnityEngine.Random.Range(1, 6);
+        //int itemDropChance = 1;
+        if (itemDropChance != 5) return;
+
+        GameObject item;
+        int itemTypeDrop = UnityEngine.Random.Range(1, 3);
+        switch (itemTypeDrop) 
+        {
+            case 1:
+                item = medicItem;
+                break;
+
+            case 2:
+                item = ammoItem;
+                break;
+
+            default:
+                Debug.LogWarning("Random system failed");
+                return;
+        }
+
+        float xDirection = UnityEngine.Random.Range(-1f, 1f);
+        float zDirection = UnityEngine.Random.Range(-1f, 1f);
+        Vector3 velocity = transform.TransformVector(xDirection, 0, zDirection).normalized * 5f;
+        velocity.y = 12f;
+
+        print(velocity);
+
+        GameObject droppedItem = Instantiate(item, location.position, Quaternion.Euler(Vector3.zero));
+        droppedItem.GetComponent<Rigidbody>().velocity = velocity;
     }
 
     public static void SpawnEnemy(int spawnPoint = -1)
@@ -96,16 +132,16 @@ public class EnemyManager : MonoBehaviour
     public static void RemoveEnemy(Guid enemyID)
     {
         EnemyObject selectedEnemy = enemies.FirstOrDefault(e => enemyID == e.enemyID);
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        if (selectedEnemy.enemy)
-        {
-            int enemyWorth = selectedEnemy.enemy.GetComponent<Enemy>().GetEnemyWorth();
-            player.GetComponent<PlayerCurrency>().AddCurrency(enemyWorth);
-        }
+        if (selectedEnemy == null) return;
+
+        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+        //int enemyWorth = selectedEnemy.enemy.GetComponent<Enemy>().GetEnemyWorth();
+        //player.GetComponent<PlayerCurrency>().AddCurrency(enemyWorth);
+
+        _instance.SpawnItem(selectedEnemy.enemy.transform);
 
         Destroy(selectedEnemy.enemy);
-
         enemies.Remove(selectedEnemy);
 
         CheckZombiesCount();

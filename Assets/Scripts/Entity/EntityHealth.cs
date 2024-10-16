@@ -45,6 +45,9 @@ public class EntityHealth : MonoBehaviour
         currentHealth += hp;
 
         if (currentHealth > health) currentHealth = health;
+
+        if (gameObject.CompareTag("Player"))
+            UIHealth.CheckHealth(1);
     }
 
     public void TakeDamage(float damage)
@@ -67,5 +70,8 @@ public class EntityHealth : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (gameObject.CompareTag("Player"))
+            UIHealth.CheckHealth(0);
     }
 }

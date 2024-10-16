@@ -107,14 +107,14 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
+        magazine = bulletPerMagazine;
+        currentTotalBullets = totalBullets;
+
         projectileSpawner.GetComponent<Light>().enabled = false;
     }
 
     private void Start()
     {
-        magazine = bulletPerMagazine;
-        currentTotalBullets = totalBullets;
-
         CalculateFireRate();
     }
 
@@ -145,7 +145,7 @@ public class Weapon : MonoBehaviour
         }
 
         if (currentSpreadStage != normalSpreadStage)
-            currentSpreadStage -= Mathf.Sign(currentSpreadStage - normalSpreadStage) * 0.003f;
+            currentSpreadStage -= Mathf.Sign(currentSpreadStage - normalSpreadStage) * (Time.deltaTime * 0.75f);
 
         if (currentReloadingTime > 0)
             currentReloadingTime -= Time.deltaTime;
@@ -221,13 +221,12 @@ public class Weapon : MonoBehaviour
         flashTime = fireFlashTime;
 
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
-        spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
-        spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
+        spawnedProjectile.GetComponent<Projectile>().SetUpProjectile(gameObject, damage, timeBulletLast);
 
         float currentVerticalSpread = Random.Range(-(verticalSpread * currentSpreadStage), verticalSpread * currentSpreadStage);
         float currentHorizontalSpread = Random.Range(-(horizontalSpread * currentSpreadStage), horizontalSpread * currentSpreadStage);
 
-        Debug.LogFormat("{0} {1}", currentVerticalSpread, currentHorizontalSpread);
+        //Debug.LogFormat("{0} {1}", currentVerticalSpread, currentHorizontalSpread);
 
         Vector3 velocityDirection = transform.TransformVector(currentHorizontalSpread, currentVerticalSpread, 1f);
 
@@ -239,7 +238,7 @@ public class Weapon : MonoBehaviour
         if (currentSpreadStage > maxSpreadStage)
             currentSpreadStage = maxSpreadStage;
 
-        print(currentSpreadStage);
+        //print(currentSpreadStage);
 
         if (magazine <= 0)
         {
@@ -268,6 +267,8 @@ public class Weapon : MonoBehaviour
             currentTotalBullets = 0;
         }
 
+        UIMagazine.CheckTotalAmmo(0);
+
         print("Reload complete");
 
         isReloading = false;
@@ -279,7 +280,6 @@ public class Weapon : MonoBehaviour
 
         print("Reloading");
         currentReloadingTime = reloadTime;
-        print(currentReloadingTime);
         StartCoroutine("ReloadAnimation");
     }
 
@@ -320,7 +320,15 @@ public class Weapon : MonoBehaviour
 
     public float GetReloadProgress()
     {
-        print((currentReloadingTime));
         return (reloadTime - currentReloadingTime) / reloadTime;
+    }
+
+    public void AddTotalAmmo()
+    {
+        currentTotalBullets += bulletPerMagazine;
+
+        UIMagazine.CheckTotalAmmo(1);
+
+        if (currentTotalBullets > 999) currentTotalBullets = 999;
     }
 }

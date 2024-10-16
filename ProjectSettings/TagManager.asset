@@ -8,6 +8,9 @@ TagManager:
   - Weapon
   - Enemy
   - UICamera
+  - PlayerCamera
+  - MinimapCamera
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - UI
   - Entity
   - Weapon
-  - 
+  - Map
   - 
   - 
   - 

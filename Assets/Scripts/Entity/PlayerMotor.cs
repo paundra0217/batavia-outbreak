@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,17 @@ public class PlayerMotor : MonoBehaviour
     private float zDirection;
     private float yMotion = 0f;
     private bool isJumping = false;
+
+    private void Awake()
+    {
+        CinemachineVirtualCamera playerVirtualCamera = 
+            GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera mapVirtualCamera =
+            GameObject.FindGameObjectWithTag("MinimapCamera").GetComponent<CinemachineVirtualCamera>();
+
+        playerVirtualCamera.Follow = transform;
+        mapVirtualCamera.Follow = transform;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +59,8 @@ public class PlayerMotor : MonoBehaviour
 
     private void Rotation()
     {
+        if (!MapCamera.IsInMiniMapMode()) return;
+
         Vector3 mouseTarget = GameObject.FindGameObjectWithTag("MouseTarget").transform.position;
 
         transform.LookAt(mouseTarget);

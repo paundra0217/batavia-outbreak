@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class UIHealth : MonoBehaviour
 {
@@ -8,14 +9,18 @@ public class UIHealth : MonoBehaviour
     [SerializeField] private Image imgHealthBarFill;
     [SerializeField] private Image imgHealthBarEmpty;
 
-    private bool alreadyWarned;
-    private EntityHealth playerHealth;
-    private Animation txtHealthAnimation;
-    private Animation imgHealthBarFillAnimation;
-    private Animation imgHealthBarEmptyAnimation;
+    private static bool alreadyWarned;
+    private static EntityHealth playerHealth;
+    private static Animation txtHealthAnimation;
+    private static Animation imgHealthBarFillAnimation;
+    private static Animation imgHealthBarEmptyAnimation;
+
+    private static UIHealth _instance;
 
     private void Awake()
     {
+        _instance = this;
+
         txtHealthAnimation = txtHealth.gameObject.GetComponent<Animation>();
         imgHealthBarFillAnimation = imgHealthBarFill.gameObject.GetComponent<Animation>();
         imgHealthBarEmptyAnimation = imgHealthBarEmpty.gameObject.GetComponent<Animation>();
@@ -33,33 +38,72 @@ public class UIHealth : MonoBehaviour
         DisplayHealth();
 
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<EntityHealth>();
-        float currentHealth = playerHealth.GetHealth();
 
-        txtHealth.text = currentHealth.ToString();
+        txtHealth.text = playerHealth.GetHealth().ToString();
         imgHealthBarFill.fillAmount = playerHealth.GetHealthByDecimal();
+    }
 
-        if (currentHealth <= playerHealth.GetHealthWarning())
+    //public static void CheckWarnings()
+    //{
+    //    Debug.LogFormat("{0} {1}", playerHealth.GetHealth(), playerHealth.GetHealthWarning());
+
+    //    if (playerHealth.GetHealth() <= playerHealth.GetHealthWarning())
+    //    {
+    //        if (alreadyWarned) return;
+
+    //        alreadyWarned = true;
+
+    //        txtHealthAnimation.Play();
+    //        imgHealthBarFillAnimation.Play();
+    //        imgHealthBarEmptyAnimation.Play();
+    //    }
+    //    else
+    //    {
+    //        if (!alreadyWarned) return;
+
+    //        alreadyWarned = false;
+
+    //        txtHealthAnimation.Stop();
+    //        imgHealthBarFillAnimation.Stop();
+    //        imgHealthBarEmptyAnimation.Stop();
+
+    //        _instance.txtHealth.color = Color.white;
+    //        _instance.imgHealthBarEmpty.color = Color.white;
+    //        _instance.imgHealthBarFill.color = Color.white;
+    //    }
+    //}
+
+    public static void CheckHealth(int mode)
+    {
+        _instance.StartCoroutine(_instance.PlayHealthUIAnimation(mode));
+    }
+
+    IEnumerator PlayHealthUIAnimation(int mode)
+    {
+        txtHealthAnimation.Stop();
+        imgHealthBarFillAnimation.Stop();
+        imgHealthBarEmptyAnimation.Stop();
+
+        if (mode == 1)
         {
-            if (!alreadyWarned)
-            {
-                alreadyWarned = true;
+            txtHealthAnimation.Play("UIHealthHeal");
+            imgHealthBarFillAnimation.Play("UIHealtBarFillHeal");
+            imgHealthBarEmptyAnimation.Play("UIHealtBarEmptyHeal");
 
-                txtHealthAnimation.Play();
-                imgHealthBarFillAnimation.Play();
-                imgHealthBarEmptyAnimation.Play();
-            }
+            yield return new WaitForSeconds(txtHealthAnimation.clip.length);
+        }
+
+        if (playerHealth.GetHealth() <= playerHealth.GetHealthWarning())
+        {
+            txtHealthAnimation.Play();
+            imgHealthBarFillAnimation.Play();
+            imgHealthBarEmptyAnimation.Play();
         }
         else
         {
-            alreadyWarned = false;
-
-            txtHealthAnimation.Stop();
-            imgHealthBarFillAnimation.Stop();
-            imgHealthBarEmptyAnimation.Stop();
-
-            txtHealth.color = Color.white;
-            imgHealthBarEmpty.color = Color.white;
-            imgHealthBarFill.color = Color.white;
+            _instance.txtHealth.color = Color.white;
+            _instance.imgHealthBarEmpty.color = Color.white;
+            _instance.imgHealthBarFill.color = Color.white;
         }
     }
 

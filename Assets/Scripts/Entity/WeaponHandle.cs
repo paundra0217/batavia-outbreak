@@ -255,6 +255,8 @@ public class WeaponHandle : MonoBehaviour
             {
                 weapons[i].SetActive(true);
 
+                UIMagazine.CheckTotalAmmo(0);
+
                 if (activeWeaponIndex != 2)
                     if (weapons[i].GetComponent<Weapon>().GetMagazineAmmo() <= 0)
                         weapons[i].GetComponent<Weapon>().Reload();

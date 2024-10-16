@@ -105,10 +105,10 @@ public class Enemy : MonoBehaviour
         return enemyID;
     }
 
-    public int GetEnemyWorth()
-    {
-        return finalWorth;
-    }
+    //public int GetEnemyWorth()
+    //{
+    //    return finalWorth;
+    //}
 
     public void SetEnemyLevel(int level)
     {

@@ -28,7 +28,7 @@ public class UIWeapons : MonoBehaviour
         {
             GameObject weaponIcon = transform.GetChild(i).gameObject;
             Image weaponIconImage = weaponIcon.transform.Find("ImgWeaponIcon").GetComponent<Image>();
-            GameObject weaponIconReloadBar = weaponIcon.transform.Find("BarReloading").gameObject;
+            GameObject weaponIconReloadBar = i != 2 ? weaponIcon.transform.Find("BarReloading").gameObject : null;
 
             if (weaponHandle.GetWeaponByIndex(i) == null)
             {
@@ -61,10 +61,10 @@ public class UIWeapons : MonoBehaviour
             weaponIconImage.rectTransform.sizeDelta = newWeaponIconSize;
             weaponIcon.GetComponent<CanvasGroup>().alpha = weaponHandle.GetActiveWeaponIndex() == i ? 1f : 0.25f;
 
+            if (i == 2) continue;
+
             if (weaponHandle.GetActiveWeaponIndex() != i)
             {
-                if (i == 2) continue;
-
                 weaponIconReloadBar.GetComponent<CanvasGroup>().alpha = 0f;
                 continue;
             }

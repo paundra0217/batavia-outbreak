@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "OpenMap",
+                    "type": "Button",
+                    "id": "c730b0bd-1cc4-4765-935a-3581896dca0b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -197,10 +206,21 @@
                     "name": "",
                     "id": "fbbc4729-782c-4d22-b8e7-107a7b150877",
                     "path": "<Keyboard>/3",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "Scale(factor=3)",
                     "groups": "",
                     "action": "GoToWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af100f70-8afd-4af7-99e9-1c4709cdc676",
+                    "path": "<Keyboard>/m",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenMap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

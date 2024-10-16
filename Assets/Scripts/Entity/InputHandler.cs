@@ -48,4 +48,11 @@ public class InputHandler : MonoBehaviour
     {
         if (!context.performed) return;
     }
+
+    public void OpenMapAction(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        MapCamera.ToggleCamera();
+    }
 }

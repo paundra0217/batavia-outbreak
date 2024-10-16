@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class UIMagazine : MonoBehaviour
 {
@@ -14,8 +15,12 @@ public class UIMagazine : MonoBehaviour
     private Animation labelMagazineAnimation;
     private Animation labelTotalAmmoAnimation;
 
+    private static UIMagazine _instance;
+
     private void Awake()
     {
+        _instance = this;
+
         labelReloading.enabled = false;
         labelMagazineAnimation = labelMagazine.gameObject.GetComponent<Animation>();
         labelTotalAmmoAnimation = labelTotalAmmo.gameObject.GetComponent<Animation>();
@@ -57,10 +62,9 @@ public class UIMagazine : MonoBehaviour
         labelReloading.enabled = weaponHandle.GetWeaponReloadStatus();
 
         int magazine = weaponHandle.GetWeaponMagazine();
-        int totalAmmo = weaponHandle.GetWeaponTotalAmmo();
 
         labelMagazine.text = magazine.ToString();
-        labelTotalAmmo.text = string.Format(" / {0}", totalAmmo.ToString());
+        labelTotalAmmo.text = string.Format(" / {0}", weaponHandle.GetWeaponTotalAmmo().ToString());
 
         if (magazine <= weaponHandle.GetWeaponMagazineWarning())
         {
@@ -77,19 +81,49 @@ public class UIMagazine : MonoBehaviour
             labelMagazine.color = Color.white;
         }
 
-        if (totalAmmo <= weaponHandle.GetWeaponTotalAmmoWarning())
+        //if (totalAmmo <= weaponHandle.GetWeaponTotalAmmoWarning())
+        //{
+        //    if (!totalAmmoAlreadyWarned)
+        //    {
+        //        totalAmmoAlreadyWarned = true;
+        //        labelTotalAmmoAnimation.Play();
+        //    }
+        //}
+        //else
+        //{
+        //    totalAmmoAlreadyWarned = false;
+        //    labelTotalAmmoAnimation.Stop();
+        //    labelTotalAmmo.color = Color.white;
+        //}
+    }
+
+    public static void CheckTotalAmmo(int mode)
+    {
+        _instance.StartCoroutine(_instance.PlayTotalAmmoUIAnimation(mode));
+    }
+
+    IEnumerator PlayTotalAmmoUIAnimation(int mode)
+    {
+        if (weaponHandle.GetActiveWeaponIndex() == 2) yield return null;
+
+        labelTotalAmmoAnimation.Stop();
+
+        if (mode == 1)
         {
-            if (!totalAmmoAlreadyWarned)
-            {
-                totalAmmoAlreadyWarned = true;
-                labelTotalAmmoAnimation.Play();
-            }
+            labelTotalAmmoAnimation.Play("UITotalAmmoAdd");
+
+            yield return new WaitForSeconds(labelTotalAmmoAnimation.clip.length);
+        }
+
+        Debug.LogFormat("{0} {1}", weaponHandle.GetWeaponTotalAmmo(), weaponHandle.GetWeaponTotalAmmoWarning());
+
+        if (weaponHandle.GetWeaponTotalAmmo() <= weaponHandle.GetWeaponTotalAmmoWarning())
+        {
+            labelTotalAmmoAnimation.Play();
         }
         else
         {
-            totalAmmoAlreadyWarned = false;
-            labelTotalAmmoAnimation.Stop();
-            labelTotalAmmo.color = Color.white;
+            _instance.labelTotalAmmo.color = Color.white;
         }
     }
 
