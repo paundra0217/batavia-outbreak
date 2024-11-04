@@ -19,12 +19,12 @@
 As the sole programmer on this ongoing project, I am currently responsible for the entire development of the game's core systems. This includes scripting the game mechanics, user interfaces, and level design. I am actively working on game mechanics including the player's action, enemies and it's behaviour, weapon system, as well as the level and some UI elements, which will significantly enhance the gameplay experience. Through continuous testing and optimization, I strive to deliver a polished and engaging game.
 
 ## 📋 Project Info and Developers
-This project using Unity 2023.2.15f1
+This project is being made using Unity 2023.2.15f1
 
 Developers:
 - **Paundra Amirtha Tanto (Programming)**
-- Ariq Bimo Nurputro (3D Artist)
-- Jonathan Oyong (3D Artist)
+- Ariq Bimo Nurputro (3D Art)
+- Jonathan Oyong (3D Art)
 
 ##  📜Scripts
 |  Script       | Description                                                  |
