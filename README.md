@@ -47,7 +47,7 @@ Developers:
       ├── Animation                     # Contains all the animations for the game.
       ├── Fonts                         # Contains all the fonts that will be used for the game UI.
       ├── Material                      # Contains all the material for the 3D objects inside the game.
-      ├── Prefab                        # Contains all the prefabs, containing GameObjects that will be instantiated throughout the game.
+      ├── Prefab                        # Contains all the prefabs that will be used inside the game level.
       ├── Scenes                        # Contains all the unity scenes. You can open these scenes to play the game via Unity.
          ├── TestBench.unity            # As this game is in work in progress, currently, the only playable scene is this file, which is TestBench.unity
       ├── Scripts                       # Contains all the scripts that manage various game mechanics and functionalities.
