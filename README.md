@@ -42,7 +42,7 @@ Developers:
    ├── Assets                           # In this Folder, it contains all of our code, assets, scenes, etc.
       ├── ...
       ├── Scenes                        # In this folder, there are scenes. You can open these scenes to play the game via Unity.
-         ├── TestBench.unity            # As this game is in work in progress, currently the playable scene is this file, which is TestBench.unity
+         ├── TestBench.unity            # As this game is in work in progress, currently, the only playable scene is this file, which is TestBench.unity
       ├── Scripts                       # In this Folder, there are scripts that manage various game mechanics and functionalities.
          ├── Entity                     # In this Folder, there are scripts that handles the behaviour of the entities of the game, including Player and Enemy.
          ├── Object                     # In this Folder, there are scripts that handles the behaviour of the objects, including weapons and projectiles.
