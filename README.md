@@ -8,7 +8,7 @@
 
 Indonesia during the final stages of World War II, in 1945, when Japanese forces are still occupying the region. The game takes place primarily around the city of Batavia (modern-day Jakarta), A secretive Japanese biological warfare unit, Unit 731, has been conducting experiments on bioweapons in the area. Disaster strikes when a military transport plane carrying a deadly bio-weapon crashes in the dense forests near Batavia. The bioweapon is a virulent pathogen designed to incapacitate enemy forces, but upon exposure to the local population, it has an unforeseen effect: it turns those infected into aggressive, mindless creatures.
 
-## 🕹️ Game Page
+## ⬇️Game Page
 Itch.io : https://nezux.itch.io/731-batavia-outbreak
 
 ## 🕹️Game controls
