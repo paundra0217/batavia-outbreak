@@ -6,6 +6,11 @@
 ## 🔴About
 **Batavia Outbreak [WIP]** is a 3D top down shooter game which tells about a survivor who's exploring a place in which were swarmed by infectious creatures. Your task is to shoot down all zombies while trying to survive and explore places that were infected.
 
+Indonesia during the final stages of World War II, in 1945, when Japanese forces are still occupying the region. The game takes place primarily around the city of Batavia (modern-day Jakarta), A secretive Japanese biological warfare unit, Unit 731, has been conducting experiments on bioweapons in the area. Disaster strikes when a military transport plane carrying a deadly bio-weapon crashes in the dense forests near Batavia. The bioweapon is a virulent pathogen designed to incapacitate enemy forces, but upon exposure to the local population, it has an unforeseen effect: it turns those infected into aggressive, mindless creatures.
+
+## 🕹️ Game Page
+Itch.io : https://nezux.itch.io/731-batavia-outbreak
+
 ## 🕹️Game controls
 | Key Binding       | Function          |
 | ----------------- | ----------------- |
