@@ -20,7 +20,7 @@ Itch.io : https://nezux.itch.io/731-batavia-outbreak
 | 1, 2, 3           | Switch Weapons   |
 | Scroll Wheel      | Scroll thorugh equipped weapons |
 
-## 💼 My Responsilibites
+## 💼My Responsilibites
 As the sole programmer on this ongoing project, I am currently responsible for the entire development of the game's core systems. This includes scripting the game mechanics, user interfaces, and level design. I am actively working on game mechanics including the player's action, enemies and it's behaviour, weapon system, as well as the level and some UI elements, which will significantly enhance the gameplay experience. Through continuous testing and optimization, I strive to deliver a polished and engaging game.
 
 ## 📋 Project Info and Developers
