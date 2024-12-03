@@ -14,10 +14,9 @@ public class Enemy : MonoBehaviour
     private Guid enemyID;
     private float strikeCooldown = 0f;
     private GameObject player = null;
-    private CapsuleCollider capsuleColl;
     private NavMeshAgent agent;
     private float finalDamage;
-    private int finalWorth;
+    //private int finalWorth;
 
     private void Awake()
     {
@@ -27,7 +26,6 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        capsuleColl = GetComponent<CapsuleCollider>();
         agent = GetComponent<NavMeshAgent>();
 
         CalculateNewStats();
@@ -70,7 +68,7 @@ public class Enemy : MonoBehaviour
         }
         GetComponent<EntityHealth>().SetHealth(finalHealth);
 
-        finalWorth = baseWorth;
+        //finalWorth = baseWorth;
         for (int i = 1; i > enemyLevel; i++)
         {
             baseHealth += (int)((float)baseWorth * 15f / 100f);

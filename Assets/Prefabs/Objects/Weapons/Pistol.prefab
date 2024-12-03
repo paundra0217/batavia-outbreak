@@ -531,7 +531,11 @@ MonoBehaviour:
   bulletsPerBurst: 0
   roundsPerMinute: 0
   reloadTime: 1
-  slowDownWalkSpeed: 100
+  walkSpeedPercentage: 0.95
+  horizontalSpread: 0
+  verticalSpread: 0
+  spreadIncrement: 0.1
+  walkingSpeedStage: 0.1
   bulletPerMagazine: 7
   totalBullets: 42
   bulletAirSpeed: 300

@@ -53,7 +53,7 @@ public class Projectile : MonoBehaviour
         {
             EntityHealth entityHealth = collision.gameObject.GetComponent<EntityHealth>();
 
-            entityHealth.TakeDamage(damage);
+            entityHealth.TakeDamage(damage, sourceWeapon.name);
         }
 
         Destroy(gameObject);

@@ -70,11 +70,11 @@ public class EnemyManager : MonoBehaviour
         spawnCooldown = 1f;
     }
 
-    private void SpawnItem(Transform location)
+    private void SpawnItem(Transform location, string weaponName)
     {
-        int itemDropChance = UnityEngine.Random.Range(1, 6);
+        int itemDropChance = UnityEngine.Random.Range(1, 4);
         //int itemDropChance = 1;
-        if (itemDropChance != 5) return;
+        if (itemDropChance != 1) return;
 
         GameObject item;
         int itemTypeDrop = UnityEngine.Random.Range(1, 3);
@@ -85,7 +85,12 @@ public class EnemyManager : MonoBehaviour
                 break;
 
             case 2:
-                item = ammoItem;
+                if (weaponName != null)
+                {
+                    item = ammoItem;
+                }
+                else
+                    item = medicItem;
                 break;
 
             default:
@@ -101,6 +106,10 @@ public class EnemyManager : MonoBehaviour
         print(velocity);
 
         GameObject droppedItem = Instantiate(item, location.position, Quaternion.Euler(Vector3.zero));
+
+        if (weaponName != null)
+            droppedItem.GetComponent<ItemLoot>().SetWeaponNameForAmmo(weaponName);
+
         droppedItem.GetComponent<Rigidbody>().velocity = velocity;
     }
 
@@ -129,7 +138,7 @@ public class EnemyManager : MonoBehaviour
         enemies.Add(new EnemyObject(spawnedEnemyID, spawnedEnemy));
     }
 
-    public static void RemoveEnemy(Guid enemyID)
+    public static void RemoveEnemy(Guid enemyID, string killedByWeaponName)
     {
         EnemyObject selectedEnemy = enemies.FirstOrDefault(e => enemyID == e.enemyID);
 
@@ -139,7 +148,7 @@ public class EnemyManager : MonoBehaviour
         //int enemyWorth = selectedEnemy.enemy.GetComponent<Enemy>().GetEnemyWorth();
         //player.GetComponent<PlayerCurrency>().AddCurrency(enemyWorth);
 
-        _instance.SpawnItem(selectedEnemy.enemy.transform);
+        _instance.SpawnItem(selectedEnemy.enemy.transform, killedByWeaponName);
 
         Destroy(selectedEnemy.enemy);
         enemies.Remove(selectedEnemy);

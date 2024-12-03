@@ -115,7 +115,7 @@ public class UIMagazine : MonoBehaviour
             yield return new WaitForSeconds(labelTotalAmmoAnimation.clip.length);
         }
 
-        Debug.LogFormat("{0} {1}", weaponHandle.GetWeaponTotalAmmo(), weaponHandle.GetWeaponTotalAmmoWarning());
+        //Debug.LogFormat("{0} {1}", weaponHandle.GetWeaponTotalAmmo(), weaponHandle.GetWeaponTotalAmmoWarning());
 
         if (weaponHandle.GetWeaponTotalAmmo() <= weaponHandle.GetWeaponTotalAmmoWarning())
         {

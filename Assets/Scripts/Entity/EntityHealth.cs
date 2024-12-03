@@ -50,7 +50,7 @@ public class EntityHealth : MonoBehaviour
             UIHealth.CheckHealth(1);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, string weaponName = null)
     {
         currentHealth -= damage;
 
@@ -61,7 +61,7 @@ public class EntityHealth : MonoBehaviour
             if (gameObject.CompareTag("Enemy"))
             {
                 // if entity is enemy
-                EnemyManager.RemoveEnemy(gameObject.GetComponent<Enemy>().GetEnemyID());
+                EnemyManager.RemoveEnemy(gameObject.GetComponent<Enemy>().GetEnemyID(), weaponName);
             }
             else
             {

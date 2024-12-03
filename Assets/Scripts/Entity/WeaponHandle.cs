@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,8 +6,8 @@ public class WeaponHandle : MonoBehaviour
 {
     [SerializeField] private float primaryMeleeDamage = 50f;
     [SerializeField] private float secondaryMeleeDamage = 100f;
-    [SerializeField] private float primaryMeleeCooldown = 0.5f;
-    [SerializeField] private float secondaryMeleeCooldown = 1.25f;
+    [SerializeField] private float primaryMeleeCooldown = 0.25f;
+    [SerializeField] private float secondaryMeleeCooldown = 1f;
     [Range(0f, 1f), SerializeField] private float magazinePercentageWarning = 0.25f;
     public Sprite meleeIcon;
 
@@ -108,6 +109,8 @@ public class WeaponHandle : MonoBehaviour
         }
         else
         {
+            if (context.ReadValue<float>() == 2) return;
+
             if (weapons[activeWeaponIndex].GetComponent<Weapon>().IsReloading()) return;
 
             weapons[activeWeaponIndex].GetComponent<Weapon>().Shoot(context);
@@ -257,9 +260,19 @@ public class WeaponHandle : MonoBehaviour
 
                 UIMagazine.CheckTotalAmmo(0);
 
+                PlayerMotor motor = transform.parent.GetComponent<PlayerMotor>();
+
                 if (activeWeaponIndex != 2)
+                {
                     if (weapons[i].GetComponent<Weapon>().GetMagazineAmmo() <= 0)
                         weapons[i].GetComponent<Weapon>().Reload();
+
+                    motor.SetCurrentSpeed(weapons[i].GetComponent<Weapon>().walkSpeedPercentage * motor.speed);
+                }
+                else
+                {
+                    motor.SetCurrentSpeed(1f * motor.speed);
+                }
             }
             else
                 weapons[i].SetActive(false);
@@ -269,6 +282,11 @@ public class WeaponHandle : MonoBehaviour
     public GameObject GetWeaponByIndex(int index)
     {
         return weapons[index];
+    }
+
+    public GameObject GetWeaponByName(string name)
+    {
+        return weapons.FirstOrDefault(e => e.name == name);
     }
 
     public int GetActiveWeaponIndex()

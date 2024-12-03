@@ -525,11 +525,17 @@ MonoBehaviour:
   weaponType: 0
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
+  weaponIcon: {fileID: 0}
   firingMode: 2
   firingCooldown: 0
   bulletsPerBurst: 0
   roundsPerMinute: 0
   reloadTime: 3
+  walkSpeedPercentage: 1
+  horizontalSpread: 0
+  verticalSpread: 0
+  spreadIncrement: 0.1
+  walkingSpeedStage: 0.1
   bulletPerMagazine: 30
   totalBullets: 180
   bulletAirSpeed: 300

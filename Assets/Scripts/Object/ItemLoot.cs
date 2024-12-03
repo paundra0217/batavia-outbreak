@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum ItemType
@@ -12,6 +10,8 @@ public class ItemLoot : MonoBehaviour
 {
     [SerializeField] private ItemType type;
 
+    private string weaponName;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -23,7 +23,7 @@ public class ItemLoot : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
         {
-            if (hit.point.y <= transform.position.y)
+            if (hit.point.y < transform.position.y - 0.45f)
             {
                 GetComponent<SphereCollider>().isTrigger = true;
                 Destroy(GetComponent<Rigidbody>());
@@ -56,22 +56,27 @@ public class ItemLoot : MonoBehaviour
 
             case ItemType.Ammo:
                 WeaponHandle handle = player.transform.Find("WeaponHandle").GetComponent<WeaponHandle>();
-                GameObject weaponObject = handle.GetWeaponByIndex(handle.GetActiveWeaponIndex());
-
-                Weapon weapon = weaponObject.GetComponent<Weapon>();
-                if (weapon == null)
+                GameObject weaponObject = handle.GetWeaponByName(weaponName);
+                if (weaponObject == null)
                 {
-                    weaponObject = handle.GetWeaponByIndex(0);
-                    if (weaponObject == null) return;
+                    return;
 
-                    weapon = weaponObject.GetComponent<Weapon>();
+                    //weaponObject = handle.GetWeaponByIndex(0);
+                    //if (weaponObject == null) return;
+
+                    //weapon = weaponObject.GetComponent<Weapon>();
                 }
 
-                weapon.AddTotalAmmo();
+                weaponObject.GetComponent<Weapon>().AddTotalAmmo();
 
                 break;
         }
 
         Destroy(gameObject);
+    }
+
+    public void SetWeaponNameForAmmo(string name)
+    {
+        weaponName = name;
     }
 }

@@ -78,7 +78,7 @@ public class Weapon : MonoBehaviour
     [SerializeField, HideInInspector]
     private int roundsPerMinute;
     [SerializeField] private float reloadTime = 3f;
-    public float slowDownWalkSpeed = 100f;
+    public float walkSpeedPercentage = 1f;
     [SerializeField] private float horizontalSpread = 0f;
     [SerializeField] private float verticalSpread = 0f;
     [SerializeField] private float spreadIncrement = 0.1f;
@@ -327,7 +327,8 @@ public class Weapon : MonoBehaviour
     {
         currentTotalBullets += bulletPerMagazine;
 
-        UIMagazine.CheckTotalAmmo(1);
+        if (gameObject.activeSelf)
+            UIMagazine.CheckTotalAmmo(1);
 
         if (currentTotalBullets > 999) currentTotalBullets = 999;
     }
