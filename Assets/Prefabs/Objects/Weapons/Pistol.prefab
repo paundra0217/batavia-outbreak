@@ -525,7 +525,7 @@ MonoBehaviour:
   weaponType: 1
   shootingSound: {fileID: 0}
   reloadSound: {fileID: 0}
-  weaponIcon: {fileID: 21300000, guid: 2d6d4901b9fc984489c950098234778e, type: 3}
+  weaponIcon: {fileID: -782314807, guid: 115ce859dfcd27644a71df4f69f43976, type: 3}
   firingMode: 0
   firingCooldown: 0
   bulletsPerBurst: 0

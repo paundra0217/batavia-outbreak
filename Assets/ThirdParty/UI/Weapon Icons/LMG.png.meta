@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0ca75cc190bcbfe4cb8d3d0089ff3401
+guid: c20f9d1737d69d94db3f3a479db50303
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,22 +97,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Knife_0
+      name: LMG_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 25
-        width: 95
-        height: 22
-      alignment: 0
+        y: 0
+        width: 202
+        height: 72
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e7423b62fafba042bf4a1cf49f757a9
-      internalID: 229487724
+      spriteID: 6788cf9eb4d7b9c4ea3108e9fc40537c
+      internalID: 311871708
       vertices: []
       indices: 
       edges: []
@@ -120,7 +120,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3b5497cf0ac8695408cdc11936209e84
+    spriteID: f11db757202856a46957e72bb8660d72
     internalID: 0
     vertices: []
     indices: 
@@ -128,7 +128,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Knife_0: 229487724
+      LMG_0: 311871708
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

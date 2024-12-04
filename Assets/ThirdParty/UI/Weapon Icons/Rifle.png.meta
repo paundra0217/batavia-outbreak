@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0ca75cc190bcbfe4cb8d3d0089ff3401
+guid: 19ee317c275d56e4897b6c694f2331e6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Knife_0
+      name: Rifle_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 25
-        width: 95
-        height: 22
+        y: 8
+        width: 139
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e7423b62fafba042bf4a1cf49f757a9
-      internalID: 229487724
+      spriteID: 5f275c4a18e38514388fcb309606fe03
+      internalID: 1176548222
       vertices: []
       indices: 
       edges: []
@@ -120,7 +120,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3b5497cf0ac8695408cdc11936209e84
+    spriteID: 8119320123858c64f9f02290a520f084
     internalID: 0
     vertices: []
     indices: 
@@ -128,7 +128,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Knife_0: 229487724
+      Rifle_0: 1176548222
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
