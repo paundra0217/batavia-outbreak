@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponEquip : MonoBehaviour
@@ -8,16 +6,16 @@ public class WeaponEquip : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Equipping weapon");
-
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject player = other.gameObject;
             GameObject weaponHandle = player.transform.Find("WeaponHandle").gameObject;
 
-            if (weaponHandle.transform.childCount > 0) return;
+            weaponHandle.GetComponent<WeaponHandle>().PickUpWeapon(weapon);
 
-            Instantiate(weapon, weaponHandle.transform);
+            //if (weaponHandle.transform.childCount > 0) return;
+
+            //Instantiate(weapon, weaponHandle.transform);
         }
     }
 }

@@ -10,6 +10,12 @@ public enum FiringMode
     Auto
 }
 
+public enum WeaponType
+{
+    Primary,
+    Secondary,
+}
+
 #if UNITY_EDITOR
 [CustomEditor(typeof(Weapon), true), CanEditMultipleObjects]
 public class WeaponEditor : Editor
@@ -57,8 +63,10 @@ public class Weapon : MonoBehaviour
     [Header("Weapon Configuration")]
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectileSpawner;
+    [SerializeField] private WeaponType weaponType;
     [SerializeField] private AudioClip shootingSound;
     [SerializeField] private AudioClip reloadSound;
+    public Sprite weaponIcon;
 
     [Header("Weapon Behaviour")]
     [SerializeField, HideInInspector]
@@ -70,13 +78,19 @@ public class Weapon : MonoBehaviour
     [SerializeField, HideInInspector]
     private int roundsPerMinute;
     [SerializeField] private float reloadTime = 3f;
+    public float walkSpeedPercentage = 1f;
+    [SerializeField] private float horizontalSpread = 0f;
+    [SerializeField] private float verticalSpread = 0f;
+    [SerializeField] private float spreadIncrement = 0.1f;
+    [SerializeField] private float walkingSpeedStage = 0.1f;
 
     [Header("Magazine and Bullet Configuration")]
-    [SerializeField] private int bulletPerMagazine;
-    [SerializeField] private int totalBullets;
+    public int bulletPerMagazine;
+    public int totalBullets;
     [SerializeField] private float bulletAirSpeed = 10f;
     [SerializeField] private float damage = 100f;
     [SerializeField] private float timeBulletLast = 10f;
+    [SerializeField] private float fireFlashTime = 0.02f;
 
     private int magazine;
     private int currentTotalBullets;
@@ -85,19 +99,62 @@ public class Weapon : MonoBehaviour
     private bool isPressed;
     private bool isReloading;
     private float fireCooldownTime;
+    private float flashTime = 0f;
+    private float currentSpreadStage = 0f;
+    private float normalSpreadStage = 0f;
+    private float maxSpreadStage = 1f;
+    private float currentReloadingTime = 0f;
 
-    private void Start()
+    private void Awake()
     {
         magazine = bulletPerMagazine;
         currentTotalBullets = totalBullets;
 
+        projectileSpawner.GetComponent<Light>().enabled = false;
+    }
+
+    private void Start()
+    {
         CalculateFireRate();
     }
 
     private void Update()
     {
-        if (fireCooldownTime >= 0)
+        if (fireCooldownTime > 0)
             fireCooldownTime -= Time.deltaTime;
+
+        if (flashTime > 0)
+        {
+            projectileSpawner.GetComponent<Light>().enabled = true;
+            flashTime -= Time.deltaTime;
+        }
+        else
+        {
+            projectileSpawner.GetComponent<Light>().enabled = false;
+        }
+
+        if (transform.GetComponentInParent<WeaponHandle>().IsPlayerMoving())
+        {
+            normalSpreadStage = walkingSpeedStage;
+            maxSpreadStage = 1f + walkingSpeedStage;
+        }
+        else
+        {
+            normalSpreadStage = 0f;
+            maxSpreadStage = 1f;
+        }
+
+        if (currentSpreadStage != normalSpreadStage)
+            currentSpreadStage -= Mathf.Sign(currentSpreadStage - normalSpreadStage) * (Time.deltaTime * 0.75f);
+
+        if (currentReloadingTime > 0)
+            currentReloadingTime -= Time.deltaTime;
+
+    }
+
+    private void OnDisable()
+    {
+        currentSpreadStage = 0f;
     }
 
     private void CalculateFireRate()
@@ -161,12 +218,27 @@ public class Weapon : MonoBehaviour
 
     private void SpawnProjectile()
     {
+        flashTime = fireFlashTime;
+
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawner.transform.position, projectileSpawner.transform.rotation);
-        spawnedProjectile.GetComponent<Projectile>().SetDamage(damage);
-        spawnedProjectile.GetComponent<Projectile>().SetBulletLast(timeBulletLast);
-        spawnedProjectile.GetComponent<Rigidbody>().velocity = transform.forward * bulletAirSpeed;
+        spawnedProjectile.GetComponent<Projectile>().SetUpProjectile(gameObject, damage, timeBulletLast);
+
+        float currentVerticalSpread = Random.Range(-(verticalSpread * currentSpreadStage), verticalSpread * currentSpreadStage);
+        float currentHorizontalSpread = Random.Range(-(horizontalSpread * currentSpreadStage), horizontalSpread * currentSpreadStage);
+
+        //Debug.LogFormat("{0} {1}", currentVerticalSpread, currentHorizontalSpread);
+
+        Vector3 velocityDirection = transform.TransformVector(currentHorizontalSpread, currentVerticalSpread, 1f);
+
+        spawnedProjectile.GetComponent<Rigidbody>().velocity = velocityDirection * bulletAirSpeed;
 
         magazine--;
+
+        currentSpreadStage += spreadIncrement;
+        if (currentSpreadStage > maxSpreadStage)
+            currentSpreadStage = maxSpreadStage;
+
+        //print(currentSpreadStage);
 
         if (magazine <= 0)
         {
@@ -195,6 +267,8 @@ public class Weapon : MonoBehaviour
             currentTotalBullets = 0;
         }
 
+        UIMagazine.CheckTotalAmmo(0);
+
         print("Reload complete");
 
         isReloading = false;
@@ -205,7 +279,18 @@ public class Weapon : MonoBehaviour
         if (magazine >= bulletPerMagazine || currentTotalBullets <= 0 || isReloading) return;
 
         print("Reloading");
+        currentReloadingTime = reloadTime;
         StartCoroutine("ReloadAnimation");
+    }
+
+    public void CancelReload()
+    {
+        if (!isReloading) return;
+
+        print("Reload cancelled");
+
+        StopCoroutine("ReloadAniamtion");
+        isReloading = false;
     }
 
     public int GetMagazineAmmo()
@@ -226,5 +311,25 @@ public class Weapon : MonoBehaviour
     public void UpdateFireRate()
     {
         CalculateFireRate();
+    }
+
+    public WeaponType GetWeaponType()
+    {
+        return weaponType;
+    }
+
+    public float GetReloadProgress()
+    {
+        return (reloadTime - currentReloadingTime) / reloadTime;
+    }
+
+    public void AddTotalAmmo()
+    {
+        currentTotalBullets += bulletPerMagazine;
+
+        if (gameObject.activeSelf)
+            UIMagazine.CheckTotalAmmo(1);
+
+        if (currentTotalBullets > 999) currentTotalBullets = 999;
     }
 }

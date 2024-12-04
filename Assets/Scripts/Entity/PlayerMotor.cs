@@ -1,9 +1,10 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMotor : MonoBehaviour
 {
-    [SerializeField] private float speed = 5.0f;
+    public float speed = 5.0f;
     [SerializeField] private float gravity = 10f;
     [SerializeField] private float jump = 1f;
 
@@ -14,6 +15,28 @@ public class PlayerMotor : MonoBehaviour
     private float zDirection;
     private float yMotion = 0f;
     private bool isJumping = false;
+    private float currentSpeed;
+
+    private void Awake()
+    {
+        if (GameObject.FindGameObjectWithTag("PlayerCamera") != null)
+        {
+            CinemachineVirtualCamera playerVirtualCamera =
+                GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CinemachineVirtualCamera>();
+
+            playerVirtualCamera.Follow = transform;
+        }
+        
+        if (GameObject.FindGameObjectWithTag("MinimapCamera") != null)
+        {
+            CinemachineVirtualCamera mapVirtualCamera =
+                GameObject.FindGameObjectWithTag("MinimapCamera").GetComponent<CinemachineVirtualCamera>();
+
+            mapVirtualCamera.Follow = transform;
+        }
+
+        currentSpeed = speed;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +55,7 @@ public class PlayerMotor : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 motion3D = new Vector3(xDirection, 0, zDirection).normalized * speed;
+        Vector3 motion3D = new Vector3(xDirection, 0, zDirection).normalized * currentSpeed;
 
         yMotion -= gravity * Time.deltaTime;
         if (controller.isGrounded)
@@ -47,6 +70,8 @@ public class PlayerMotor : MonoBehaviour
 
     private void Rotation()
     {
+        //if (!MapCamera.IsInMiniMapMode()) return;
+
         Vector3 mouseTarget = GameObject.FindGameObjectWithTag("MouseTarget").transform.position;
 
         transform.LookAt(mouseTarget);
@@ -70,5 +95,10 @@ public class PlayerMotor : MonoBehaviour
 
         yMotion = jump;
         isJumping = true;
+    }
+
+    public void SetCurrentSpeed(float speed)
+    {
+        this.currentSpeed = speed;
     }
 }

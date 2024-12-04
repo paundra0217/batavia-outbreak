@@ -8,15 +8,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float timePerStrike = 0.5f;
     [SerializeField] private int baseHealth = 100;
     [SerializeField] private int baseWorth = 10;
+    [SerializeField] private Detector detector;
     [SerializeField, Range(1, 10)] private int enemyLevel = 1;
+    [SerializeField] private Animator animator;
 
     private Guid enemyID;
     private float strikeCooldown = 0f;
     private GameObject player = null;
-    private CapsuleCollider capsuleColl;
     private NavMeshAgent agent;
     private float finalDamage;
-    private int finalWorth;
+    //private int finalWorth;
 
     private void Awake()
     {
@@ -26,7 +27,6 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        capsuleColl = GetComponent<CapsuleCollider>();
         agent = GetComponent<NavMeshAgent>();
 
         CalculateNewStats();
@@ -40,7 +40,8 @@ public class Enemy : MonoBehaviour
         else
             agent.SetDestination(transform.position);
 
-        DetectPlayer();
+        //DetectPlayer();
+        player = detector.GetDetectedEntity();
     }
 
     private void FixedUpdate()
@@ -51,6 +52,8 @@ public class Enemy : MonoBehaviour
             StrikePlayer();
 
         strikeCooldown -= Time.deltaTime;
+
+        animator.SetFloat("WalkSpeed", agent.velocity.magnitude);
     }
 
     private void CalculateNewStats()
@@ -68,27 +71,27 @@ public class Enemy : MonoBehaviour
         }
         GetComponent<EntityHealth>().SetHealth(finalHealth);
 
-        finalWorth = baseWorth;
+        //finalWorth = baseWorth;
         for (int i = 1; i > enemyLevel; i++)
         {
             baseHealth += (int)((float)baseWorth * 15f / 100f);
         }
     }
 
-    private void DetectPlayer()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 1.2f))
-        {
-            if (!hit.collider.gameObject.CompareTag("Player")) return;
+    //private void DetectPlayer()
+    //{
+    //    RaycastHit hit;
+    //    if (Physics.Raycast(transform.position, transform.forward, out hit, 1.2f))
+    //    {
+    //        if (!hit.collider.gameObject.CompareTag("Player")) return;
 
-            player = hit.collider.gameObject;
-        }
-        else
-        {
-            player = null;
-        }
-    }
+    //        player = hit.collider.gameObject;
+    //    }
+    //    else
+    //    {
+    //        player = null;
+    //    }
+    //}
 
     private void StrikePlayer()
     {
@@ -103,10 +106,10 @@ public class Enemy : MonoBehaviour
         return enemyID;
     }
 
-    public int GetEnemyWorth()
-    {
-        return finalWorth;
-    }
+    //public int GetEnemyWorth()
+    //{
+    //    return finalWorth;
+    //}
 
     public void SetEnemyLevel(int level)
     {

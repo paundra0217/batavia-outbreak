@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Fire",
                     "type": "Button",
                     "id": "5cf0a9e8-6390-4925-82cb-a467aeab4611",
                     "expectedControlType": "Button",
@@ -36,6 +36,42 @@
                     "name": "Reload",
                     "type": "Button",
                     "id": "8d92d691-e87e-486c-997c-8964276c2e1c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchWeapon",
+                    "type": "Value",
+                    "id": "fa1c6143-5210-40c8-bcb1-835e4b277588",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "GoToWeapon",
+                    "type": "Value",
+                    "id": "3ad87fca-2095-4390-a2ec-289fc301c667",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "OpenMap",
+                    "type": "Button",
+                    "id": "c730b0bd-1cc4-4765-935a-3581896dca0b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "0650066a-4eaf-4a7d-a79d-9db35b4d79c2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -114,9 +150,20 @@
                     "id": "e1ee7d02-29c7-4353-bae2-4ef194b19c11",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Scale",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42a9d5f0-a5a4-41c1-ba0e-29a761112cf3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -128,6 +175,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ab687f7-bd87-4943-939f-04275dd1ae74",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a51d489-39e8-46f8-a02c-0c5f24ee5488",
+                    "path": "<Keyboard>/1",
+                    "interactions": "Press",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "GoToWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e052b89c-c7b0-46be-87a1-af7304b67b96",
+                    "path": "<Keyboard>/2",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "GoToWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbbc4729-782c-4d22-b8e7-107a7b150877",
+                    "path": "<Keyboard>/3",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "GoToWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af100f70-8afd-4af7-99e9-1c4709cdc676",
+                    "path": "<Keyboard>/m",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91b78b22-5501-4775-926c-7a13dfded5bf",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

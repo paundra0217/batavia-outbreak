@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class UIEnemy : MonoBehaviour
 {
@@ -8,6 +8,14 @@ public class UIEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        labelTotalEnemies.text = EnemyManager.GetEnemyCount().ToString();
+        try
+        {
+            labelTotalEnemies.text = EnemyManager.GetEnemyCount().ToString();
+        }
+        catch
+        {
+            Debug.LogWarning("Enemy manager is null");
+            gameObject.SetActive(false);
+        }
     }
 }
