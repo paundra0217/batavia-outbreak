@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int baseWorth = 10;
     [SerializeField] private Detector detector;
     [SerializeField, Range(1, 10)] private int enemyLevel = 1;
+    [SerializeField] private Animator animator;
 
     private Guid enemyID;
     private float strikeCooldown = 0f;
@@ -51,6 +52,8 @@ public class Enemy : MonoBehaviour
             StrikePlayer();
 
         strikeCooldown -= Time.deltaTime;
+
+        animator.SetFloat("WalkSpeed", agent.velocity.magnitude);
     }
 
     private void CalculateNewStats()

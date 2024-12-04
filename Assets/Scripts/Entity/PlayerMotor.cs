@@ -70,7 +70,7 @@ public class PlayerMotor : MonoBehaviour
 
     private void Rotation()
     {
-        if (!MapCamera.IsInMiniMapMode()) return;
+        //if (!MapCamera.IsInMiniMapMode()) return;
 
         Vector3 mouseTarget = GameObject.FindGameObjectWithTag("MouseTarget").transform.position;
 
