@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WeaponRemove : MonoBehaviour
 {
+    [SerializeField] private bool removeAllWeapons = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -9,7 +11,10 @@ public class WeaponRemove : MonoBehaviour
             GameObject player = other.gameObject;
             GameObject weaponHandle = player.transform.Find("WeaponHandle").gameObject;
 
-            weaponHandle.GetComponent<WeaponHandle>().DropWeapon();
+            if (removeAllWeapons)
+                weaponHandle.GetComponent<WeaponHandle>().DropAllWeapons();
+            else
+                weaponHandle.GetComponent<WeaponHandle>().DropWeapon();
 
             //if (weaponHandle.transform.childCount <= 0) return;
 

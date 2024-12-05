@@ -33,6 +33,14 @@ public class UILoadingScreen : MonoBehaviour
         _instance.StartCoroutine(_instance.LoadLevelAsync(sceneName));
     }
 
+    public static void ReloadScene()
+    {
+        if (SceneManager.GetActiveScene().name == "Level")
+            EnemyManager.ClearEnemy();
+
+        LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     private IEnumerator LoadLevelAsync(string sceneName)
     {
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName);

@@ -147,6 +147,24 @@ public class WeaponHandle : MonoBehaviour
         RefreshWeaponInventory();
     }
 
+    public void DropAllWeapons()
+    {
+        if (CountWeapon() <= 0 || activeWeaponIndex == 2) return;
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i].GetComponent<Weapon>().IsReloading())
+                weapons[i].GetComponent<Weapon>().CancelReload();
+
+            Destroy(weapons[i].gameObject);
+            weapons[i] = null;
+        }
+
+        activeWeaponIndex = 2;
+
+        RefreshWeaponInventory();
+    }
+
     public void PickUpWeapon(GameObject weapon)
     {
         //if (activeWeaponIndex != -1)

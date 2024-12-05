@@ -2,15 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public class WaveData
 {
     public string WaveName;
+    public UnityEvent eventsBeforeWave;
     public int enemyCount;
     public GameObject[] spawnPoints;
     public float spawnInterval = 0.1f;
+    public UnityEvent eventsAfterWave;
 }
 
 [Serializable]
@@ -163,6 +167,8 @@ public class EnemyManager : MonoBehaviour
             Destroy(enemy.enemy);
         }
 
+        currentWave = null;
+
         enemies.Clear();
     }
 
@@ -192,6 +198,15 @@ public class EnemyManager : MonoBehaviour
         }
 
         currentWave = _instance.waves.FirstOrDefault(e => e.WaveName == waveName);
+        if (currentWave == null)
+        {
+            Debug.LogWarning("Wave is not valid");
+            return;
+        }
+
+        if (currentWave.eventsBeforeWave.GetPersistentEventCount() > 0)
+            currentWave.eventsBeforeWave.Invoke();
+
         _instance.currentSpawnPoints = currentWave.spawnPoints;
         enemiesInQueue = currentWave.enemyCount;
 
@@ -205,6 +220,9 @@ public class EnemyManager : MonoBehaviour
             Debug.LogWarning("No wave is running");
             return;
         }
+
+        if (currentWave.eventsAfterWave.GetPersistentEventCount() > 0)
+            currentWave.eventsAfterWave.Invoke();
 
         currentWave = null;
     }
@@ -224,7 +242,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (currentWave == null) return;
 
-        if (enemiesInQueue <= 0) return;
+        if (enemiesInQueue > 0) return;
 
         if (GetEnemyCount() <= 0)
         {

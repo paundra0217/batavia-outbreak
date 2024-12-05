@@ -3,6 +3,7 @@ using UnityEngine;
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField] private float health = 100f;
+    [SerializeField] private GameObject gameOverScreen;
     [Range(0f, 1f), SerializeField] private float healthPercentageWarning = 0.25f;
 
     private float currentHealth;
@@ -67,6 +68,7 @@ public class EntityHealth : MonoBehaviour
             {
                 // if entity is player
                 EnemyManager.StopAutoEnemySpawn();
+                gameOverScreen.SetActive(true);
                 Destroy(gameObject);
             }
         }

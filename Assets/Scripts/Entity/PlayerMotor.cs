@@ -90,8 +90,6 @@ namespace PlayerMovement
             float xValue = context.ReadValue<Vector2>().x;
             float yValue = context.ReadValue<Vector2>().y;
 
-            Debug.LogFormat("x: {0}, y: {1}", xValue, yValue);
-
             Vector2 newDirection = TranslateMovementDirection(xValue, yValue);
             xDirection = newDirection.x;
             zDirection = newDirection.y;

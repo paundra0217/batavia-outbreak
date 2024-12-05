@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour
 
         strikeCooldown -= Time.deltaTime;
 
-        animator.SetFloat("WalkSpeed", agent.velocity.magnitude);
+        //animator.SetFloat("WalkSpeed", agent.velocity.magnitude);
     }
 
     private void CalculateNewStats()
